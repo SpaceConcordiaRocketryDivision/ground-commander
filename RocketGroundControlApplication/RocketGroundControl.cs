@@ -54,16 +54,16 @@ namespace WindowsFormsApplication1
         {
             /*
              * data templates
-             BMP SENSOR  BMP:STATUS:PRESSURE:TEMPERATURE:ALTITUDE
-             DOF SENSOR  DOF:STATUS:?:?:?:?
-             GPS SENSOR  GPS:STATUS:?:?:?
+             BMP SENSOR  BMP:TIME:PRESSURE:TEMPERATURE:ALTITUDE
+             DOF SENSOR  DOF:TIME:?:?:?:?
+             GPS SENSOR  GPS:TIME:?:?:?
              */
             try
             {
                 string data = xbeePort.ReadLine();
 
                 dataRecievedArray = data.Split(':'); // Split up each piece of data into an array
-                if (dataRecievedArray[0] == "BMP" ) // Checks if we recieved BMP sensor info format BMP:ONLINE:PRESSURE:TEMPERATURE:ALTITUDE
+                if (dataRecievedArray[0] == "P" ) // Checks if we recieved BMP sensor info format BMP:ONLINE:PRESSURE:TEMPERATURE:ALTITUDE
                 {
                     setTextBMP();
                 }
