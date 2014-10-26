@@ -1,4 +1,4 @@
-﻿namespace WindowsFormsApplication1
+﻿namespace RocketGroundControl
 {
     partial class RocketGroundControl
     {
@@ -72,6 +72,7 @@
             this.pressureTextBox = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.comPortCB = new System.Windows.Forms.ComboBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -606,12 +607,23 @@
             this.comPortCB.Size = new System.Drawing.Size(80, 21);
             this.comPortCB.TabIndex = 24;
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(22, 333);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(121, 23);
+            this.button1.TabIndex = 25;
+            this.button1.Text = "Graphs of Data";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            // 
             // RocketGroundControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(760, 504);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.comPortCB);
             this.Controls.Add(this.pressureSend);
             this.Controls.Add(this.pressureTextBox);
@@ -691,6 +703,7 @@
         private System.Windows.Forms.TextBox pressureTextBox;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.ComboBox comPortCB;
+        private System.Windows.Forms.Button button1;
 
     }
 }

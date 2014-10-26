@@ -22,3 +22,29 @@ C:\Users\Harley\Desktop\GitHub\ground-commander\RocketGroundControlApplication\o
 C:\Users\Harley\Desktop\GitHub\ground-commander\RocketGroundControlApplication\obj\x86\Debug\RocketGroundControl.csproj.GenerateResource.Cache
 C:\Users\Harley\Desktop\GitHub\ground-commander\RocketGroundControlApplication\obj\x86\Debug\Rocket Ground Control.exe.manifest
 C:\Users\Harley\Desktop\GitHub\ground-commander\RocketGroundControlApplication\obj\x86\Debug\Rocket Ground Control.application
+C:\Users\Sean\Desktop\Desktop\Sean's stuff\Sean's Stuff\University\Space Concordia\ground-commander-master\RocketGroundControlApplication\obj\x86\Debug\Rocket Ground Control.exe
+C:\Users\Sean\Desktop\Desktop\Sean's stuff\Sean's Stuff\University\Space Concordia\ground-commander-master\RocketGroundControlApplication\obj\x86\Debug\Rocket Ground Control.pdb
+C:\Users\Sean\Desktop\Desktop\Sean's stuff\Sean's Stuff\University\Space Concordia\ground-commander-master\RocketGroundControlApplication\bin\Debug\Rocket Ground Control.exe.manifest
+C:\Users\Sean\Desktop\Desktop\Sean's stuff\Sean's Stuff\University\Space Concordia\ground-commander-master\RocketGroundControlApplication\bin\Debug\Rocket Ground Control.application
+C:\Users\Sean\Desktop\Desktop\Sean's stuff\Sean's Stuff\University\Space Concordia\ground-commander-master\RocketGroundControlApplication\bin\Debug\Rocket Ground Control.exe
+C:\Users\Sean\Desktop\Desktop\Sean's stuff\Sean's Stuff\University\Space Concordia\ground-commander-master\RocketGroundControlApplication\bin\Debug\Rocket Ground Control.pdb
+C:\Users\Sean\Desktop\Desktop\Sean's stuff\Sean's Stuff\University\Space Concordia\ground-commander-master\RocketGroundControlApplication\obj\x86\Debug\RocketGroundControl.csprojResolveAssemblyReference.cache
+C:\Users\Sean\Desktop\Desktop\Sean's stuff\Sean's Stuff\University\Space Concordia\ground-commander-master\RocketGroundControlApplication\obj\x86\Debug\RocketGroundControl.Properties.Resources.resources
+C:\Users\Sean\Desktop\Desktop\Sean's stuff\Sean's Stuff\University\Space Concordia\ground-commander-master\RocketGroundControlApplication\obj\x86\Debug\RocketGroundControl.csproj.GenerateResource.Cache
+C:\Users\Sean\Desktop\Desktop\Sean's stuff\Sean's Stuff\University\Space Concordia\ground-commander-master\RocketGroundControlApplication\obj\x86\Debug\Rocket Ground Control.exe.manifest
+C:\Users\Sean\Desktop\Desktop\Sean's stuff\Sean's Stuff\University\Space Concordia\ground-commander-master\RocketGroundControlApplication\obj\x86\Debug\Rocket Ground Control.application
+C:\Users\Sean\Desktop\Desktop\Sean's stuff\Sean's Stuff\University\Space Concordia\ground-commander-master\RocketGroundControlApplication\obj\x86\Debug\RocketGroundControl.Chart.resources
+C:\Users\Sean\Desktop\Desktop\Sean's stuff\Sean's Stuff\University\Space Concordia\ground-commander-master\RocketGroundControlApplication\obj\x86\Debug\RocketGroundControl.RocketGroundControl.resources
+C:\Users\Sean\Desktop\Desktop\Sean's stuff\Sean's Stuff\University\Space Concordia\ground-commander\RocketGroundControlApplication\obj\x86\Debug\Rocket Ground Control.exe
+C:\Users\Sean\Desktop\Desktop\Sean's stuff\Sean's Stuff\University\Space Concordia\ground-commander\RocketGroundControlApplication\obj\x86\Debug\Rocket Ground Control.pdb
+C:\Users\Sean\Desktop\Desktop\Sean's stuff\Sean's Stuff\University\Space Concordia\ground-commander\RocketGroundControlApplication\obj\x86\Debug\RocketGroundControl.csprojResolveAssemblyReference.cache
+C:\Users\Sean\Desktop\Desktop\Sean's stuff\Sean's Stuff\University\Space Concordia\ground-commander\RocketGroundControlApplication\obj\x86\Debug\RocketGroundControl.Chart.resources
+C:\Users\Sean\Desktop\Desktop\Sean's stuff\Sean's Stuff\University\Space Concordia\ground-commander\RocketGroundControlApplication\obj\x86\Debug\RocketGroundControl.RocketGroundControl.resources
+C:\Users\Sean\Desktop\Desktop\Sean's stuff\Sean's Stuff\University\Space Concordia\ground-commander\RocketGroundControlApplication\obj\x86\Debug\RocketGroundControl.Properties.Resources.resources
+C:\Users\Sean\Desktop\Desktop\Sean's stuff\Sean's Stuff\University\Space Concordia\ground-commander\RocketGroundControlApplication\obj\x86\Debug\RocketGroundControl.csproj.GenerateResource.Cache
+C:\Users\Sean\Desktop\Desktop\Sean's stuff\Sean's Stuff\University\Space Concordia\ground-commander\RocketGroundControlApplication\bin\Debug\Rocket Ground Control.exe.manifest
+C:\Users\Sean\Desktop\Desktop\Sean's stuff\Sean's Stuff\University\Space Concordia\ground-commander\RocketGroundControlApplication\bin\Debug\Rocket Ground Control.application
+C:\Users\Sean\Desktop\Desktop\Sean's stuff\Sean's Stuff\University\Space Concordia\ground-commander\RocketGroundControlApplication\bin\Debug\Rocket Ground Control.exe
+C:\Users\Sean\Desktop\Desktop\Sean's stuff\Sean's Stuff\University\Space Concordia\ground-commander\RocketGroundControlApplication\bin\Debug\Rocket Ground Control.pdb
+C:\Users\Sean\Desktop\Desktop\Sean's stuff\Sean's Stuff\University\Space Concordia\ground-commander\RocketGroundControlApplication\obj\x86\Debug\Rocket Ground Control.exe.manifest
+C:\Users\Sean\Desktop\Desktop\Sean's stuff\Sean's Stuff\University\Space Concordia\ground-commander\RocketGroundControlApplication\obj\x86\Debug\Rocket Ground Control.application

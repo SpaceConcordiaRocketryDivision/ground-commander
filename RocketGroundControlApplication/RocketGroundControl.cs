@@ -23,18 +23,21 @@ using System.Windows.Forms;
 using System.IO.Ports;
 using System.Threading;
 
-namespace WindowsFormsApplication1
+namespace RocketGroundControl
 {
     public partial class RocketGroundControl : Form
     {
+        
         public SerialPort xbeePort; 
         public string[] dataRecievedArray;
         public bool connected = false;
         public double maxAltitude = 0;
         delegate void SetTextCallback();
+        public Chart chart = new Chart();
+
         public RocketGroundControl()
         {
-            InitializeComponent(); 
+            InitializeComponent();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -125,6 +128,18 @@ namespace WindowsFormsApplication1
                         velocityYlbl.Text = dataRecievedArray[6];
                         velocityZlbl.Text = dataRecievedArray[7];
 
+                        chart.addPoint(3, Double.Parse(dataRecievedArray[1]), Double.Parse(dataRecievedArray[2]));
+                        chart.addPoint(4, Double.Parse(dataRecievedArray[1]), Double.Parse(dataRecievedArray[3]));
+                        chart.addPoint(5, Double.Parse(dataRecievedArray[1]), Double.Parse(dataRecievedArray[4]));
+
+                        chart.addPoint(6, Double.Parse(dataRecievedArray[1]), Double.Parse(dataRecievedArray[5]));
+                        chart.addPoint(7, Double.Parse(dataRecievedArray[1]), Double.Parse(dataRecievedArray[6]));
+                        chart.addPoint(8, Double.Parse(dataRecievedArray[1]), Double.Parse(dataRecievedArray[7]));
+
+                        chart.addPoint(9, Double.Parse(dataRecievedArray[1]), Double.Parse(dataRecievedArray[10]));
+                        chart.addPoint(10, Double.Parse(dataRecievedArray[1]), Double.Parse(dataRecievedArray[9]));
+                        chart.addPoint(11, Double.Parse(dataRecievedArray[1]), Double.Parse(dataRecievedArray[8]));
+                        
                         accelerometerlbl.ForeColor = Color.Lime;
                     }
                 }
@@ -182,15 +197,20 @@ namespace WindowsFormsApplication1
                
                         barometriclbl.Text = "Online";
                         airpressurelbl.Text = dataRecievedArray[2];
+                        
                         altitudelbl.Text = dataRecievedArray[4];
-                            if (Convert.ToDouble(dataRecievedArray[4].Trim()) > maxAltitude)
-                            {
-                                maxAltitude = Convert.ToDouble(dataRecievedArray[4].Trim());
-                                maxAltitudelbl.Text = maxAltitude.ToString();
-                            }
+                        if (Convert.ToDouble(dataRecievedArray[4].Trim()) > maxAltitude)
+                        {
+                            maxAltitude = Convert.ToDouble(dataRecievedArray[4].Trim());
+                            maxAltitudelbl.Text = maxAltitude.ToString();
                         }
-                   
-                        barometriclbl.ForeColor = Color.Lime;
+
+                        chart.addPoint(0, Double.Parse(dataRecievedArray[1]), Double.Parse(dataRecievedArray[2]));
+                        chart.addPoint(1, Double.Parse(dataRecievedArray[1]), Double.Parse(dataRecievedArray[3]));
+                        chart.addPoint(2, Double.Parse(dataRecievedArray[1]), Double.Parse(dataRecievedArray[4]));
+                     }
+                     
+                     barometriclbl.ForeColor = Color.Lime;
 
                     } 
                 }
@@ -256,6 +276,11 @@ namespace WindowsFormsApplication1
             {
                 xbeePort.Write("LaunchPar");
             }
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            chart.Show();
         }
 
 
