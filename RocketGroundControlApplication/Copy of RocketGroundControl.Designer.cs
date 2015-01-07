@@ -1,4 +1,4 @@
-﻿namespace RocketGroundControl
+﻿namespace WindowsFormsApplication1
 {
     partial class RocketGroundControl
     {
@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -73,11 +72,7 @@
             this.pressureTextBox = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.comPortCB = new System.Windows.Forms.ComboBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.unlockrocketbtn = new System.Windows.Forms.Button();
-            this.timelbl = new System.Windows.Forms.Label();
-            this.update = new System.Windows.Forms.Timer(this.components);
-            this.simulatelbl = new System.Windows.Forms.Button();
+            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -158,7 +153,7 @@
             this.gpslbl.AutoSize = true;
             this.gpslbl.BackColor = System.Drawing.Color.Transparent;
             this.gpslbl.Font = new System.Drawing.Font("Courier New", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gpslbl.ForeColor = System.Drawing.Color.Red;
+            this.gpslbl.ForeColor = System.Drawing.Color.Lime;
             this.gpslbl.Location = new System.Drawing.Point(193, 154);
             this.gpslbl.Name = "gpslbl";
             this.gpslbl.Size = new System.Drawing.Size(87, 21);
@@ -170,7 +165,7 @@
             this.barometriclbl.AutoSize = true;
             this.barometriclbl.BackColor = System.Drawing.Color.Transparent;
             this.barometriclbl.Font = new System.Drawing.Font("Courier New", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.barometriclbl.ForeColor = System.Drawing.Color.Red;
+            this.barometriclbl.ForeColor = System.Drawing.Color.Lime;
             this.barometriclbl.Location = new System.Drawing.Point(193, 131);
             this.barometriclbl.Name = "barometriclbl";
             this.barometriclbl.Size = new System.Drawing.Size(87, 21);
@@ -182,7 +177,7 @@
             this.gyroscopelbl.AutoSize = true;
             this.gyroscopelbl.BackColor = System.Drawing.Color.Transparent;
             this.gyroscopelbl.Font = new System.Drawing.Font("Courier New", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gyroscopelbl.ForeColor = System.Drawing.Color.Red;
+            this.gyroscopelbl.ForeColor = System.Drawing.Color.Lime;
             this.gyroscopelbl.Location = new System.Drawing.Point(193, 108);
             this.gyroscopelbl.Name = "gyroscopelbl";
             this.gyroscopelbl.Size = new System.Drawing.Size(87, 21);
@@ -194,7 +189,7 @@
             this.accelerometerlbl.AutoSize = true;
             this.accelerometerlbl.BackColor = System.Drawing.Color.Transparent;
             this.accelerometerlbl.Font = new System.Drawing.Font("Courier New", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.accelerometerlbl.ForeColor = System.Drawing.Color.Red;
+            this.accelerometerlbl.ForeColor = System.Drawing.Color.Lime;
             this.accelerometerlbl.Location = new System.Drawing.Point(193, 85);
             this.accelerometerlbl.Name = "accelerometerlbl";
             this.accelerometerlbl.Size = new System.Drawing.Size(87, 21);
@@ -206,7 +201,7 @@
             this.sensorStatuslbl.AutoSize = true;
             this.sensorStatuslbl.BackColor = System.Drawing.Color.Transparent;
             this.sensorStatuslbl.Font = new System.Drawing.Font("Courier New", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.sensorStatuslbl.ForeColor = System.Drawing.Color.Red;
+            this.sensorStatuslbl.ForeColor = System.Drawing.Color.Lime;
             this.sensorStatuslbl.Location = new System.Drawing.Point(193, 62);
             this.sensorStatuslbl.Name = "sensorStatuslbl";
             this.sensorStatuslbl.Size = new System.Drawing.Size(43, 21);
@@ -221,9 +216,9 @@
             this.rocketstatuslbl.ForeColor = System.Drawing.Color.Lime;
             this.rocketstatuslbl.Location = new System.Drawing.Point(193, 18);
             this.rocketstatuslbl.Name = "rocketstatuslbl";
-            this.rocketstatuslbl.Size = new System.Drawing.Size(208, 21);
+            this.rocketstatuslbl.Size = new System.Drawing.Size(131, 21);
             this.rocketstatuslbl.TabIndex = 7;
-            this.rocketstatuslbl.Text = "NO STATUS RECIEVED";
+            this.rocketstatuslbl.Text = "Launch Mode";
             // 
             // deployButton
             // 
@@ -612,53 +607,12 @@
             this.comPortCB.Size = new System.Drawing.Size(80, 21);
             this.comPortCB.TabIndex = 24;
             // 
-            // button1
+            // dateTimePicker1
             // 
-            this.button1.Location = new System.Drawing.Point(22, 333);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(121, 23);
-            this.button1.TabIndex = 25;
-            this.button1.Text = "Graphs of Data";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click_1);
-            // 
-            // unlockrocketbtn
-            // 
-            this.unlockrocketbtn.Location = new System.Drawing.Point(22, 362);
-            this.unlockrocketbtn.Name = "unlockrocketbtn";
-            this.unlockrocketbtn.Size = new System.Drawing.Size(121, 23);
-            this.unlockrocketbtn.TabIndex = 26;
-            this.unlockrocketbtn.Text = "Unlock Rocket";
-            this.unlockrocketbtn.UseVisualStyleBackColor = true;
-            this.unlockrocketbtn.Click += new System.EventHandler(this.unlockrocketbtn_Click);
-            // 
-            // timelbl
-            // 
-            this.timelbl.AutoSize = true;
-            this.timelbl.BackColor = System.Drawing.Color.Transparent;
-            this.timelbl.Font = new System.Drawing.Font("Courier New", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.timelbl.ForeColor = System.Drawing.Color.Lime;
-            this.timelbl.Location = new System.Drawing.Point(500, 471);
-            this.timelbl.Name = "timelbl";
-            this.timelbl.Size = new System.Drawing.Size(98, 21);
-            this.timelbl.TabIndex = 27;
-            this.timelbl.Text = "Latency:";
-            // 
-            // update
-            // 
-            this.update.Enabled = true;
-            this.update.Interval = 1000;
-            this.update.Tick += new System.EventHandler(this.update_Tick);
-            // 
-            // simulatelbl
-            // 
-            this.simulatelbl.Location = new System.Drawing.Point(22, 391);
-            this.simulatelbl.Name = "simulatelbl";
-            this.simulatelbl.Size = new System.Drawing.Size(121, 23);
-            this.simulatelbl.TabIndex = 28;
-            this.simulatelbl.Text = "Turn on Simulation";
-            this.simulatelbl.UseVisualStyleBackColor = true;
-            this.simulatelbl.Click += new System.EventHandler(this.simulatelbl_Click);
+            this.dateTimePicker1.Location = new System.Drawing.Point(380, 0);
+            this.dateTimePicker1.Name = "dateTimePicker1";
+            this.dateTimePicker1.Size = new System.Drawing.Size(200, 20);
+            this.dateTimePicker1.TabIndex = 25;
             // 
             // RocketGroundControl
             // 
@@ -666,10 +620,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(760, 504);
-            this.Controls.Add(this.simulatelbl);
-            this.Controls.Add(this.timelbl);
-            this.Controls.Add(this.unlockrocketbtn);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.dateTimePicker1);
             this.Controls.Add(this.comPortCB);
             this.Controls.Add(this.pressureSend);
             this.Controls.Add(this.pressureTextBox);
@@ -749,11 +700,7 @@
         private System.Windows.Forms.TextBox pressureTextBox;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.ComboBox comPortCB;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button unlockrocketbtn;
-        private System.Windows.Forms.Label timelbl;
-        private System.Windows.Forms.Timer update;
-        private System.Windows.Forms.Button simulatelbl;
+        private System.Windows.Forms.DateTimePicker dateTimePicker1;
 
     }
 }

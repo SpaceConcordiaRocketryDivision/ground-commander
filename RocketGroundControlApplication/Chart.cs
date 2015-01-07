@@ -194,5 +194,10 @@ namespace RocketGroundControl
         {
 
         }
+
+        private void Chart_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

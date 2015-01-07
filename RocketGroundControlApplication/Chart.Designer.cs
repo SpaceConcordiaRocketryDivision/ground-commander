@@ -177,6 +177,7 @@
             this.Name = "Chart";
             this.Tag = "";
             this.Text = "Chart";
+            this.Load += new System.EventHandler(this.Chart_Load);
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

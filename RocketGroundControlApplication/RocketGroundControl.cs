@@ -27,14 +27,25 @@ namespace RocketGroundControl
 {
     public partial class RocketGroundControl : Form
     {
+        const int START_BYTE_POS      = 0;
+        const int TRANSCIEVERD_ID_POS = 1;
+        const int ROCKET_STAGE_POS    = 2;
+        const int COMMAND_ID_POS      = 3;
+        const int TIME_POS            = 4;
         
         public SerialPort xbeePort; 
         public string[] dataRecievedArray;
         public bool connected = false;
+        public bool unlockrocket = false;
+        public bool simulationOn = false;
         public double maxAltitude = 0;
         delegate void SetTextCallback();
         public Chart chart = new Chart();
 
+        public int count = 0;
+        public int timeOutCounter = 1;
+        public int lastTimeRecieved = 0;
+        public int oldTimeRecieved = 0;
         public RocketGroundControl()
         {
             InitializeComponent();
@@ -57,31 +68,31 @@ namespace RocketGroundControl
         {
             /*
              * data templates
-             BMP SENSOR  BMP:TIME:PRESSURE:TEMPERATURE:ALTITUDE
+             BMP SENSOR  0xFF:N:1:PP:N:TIME:PRESSURE:TEMPERATURE:ALTITUDE
              DOF SENSOR  DOF:TIME:?:?:?:?
              GPS SENSOR  GPS:TIME:?:?:?
              */
             try
             {
                 string data = xbeePort.ReadLine();
-
+                
                 dataRecievedArray = data.Split(':'); // Split up each piece of data into an array
-                if (dataRecievedArray[0] == "P" ) // Checks if we recieved BMP sensor info format BMP:ONLINE:PRESSURE:TEMPERATURE:ALTITUDE
+                if (dataRecievedArray[START_BYTE_POS] == "255")
                 {
-                    setTextBMP();
-                }
-                else if (dataRecievedArray[0] == "GPS" )
-                {
-                    setTextGPS();
+                    if (dataRecievedArray[COMMAND_ID_POS] == "PP" && dataRecievedArray[8] == "254\r") // Checks if we recieved BMP sensor info format BMP:ONLINE:PRESSURE:TEMPERATURE:ALTITUDE9
+                    {
+                        setRocketStatus();
+                        setTextBMP();
+                    }
+                    else if (dataRecievedArray[COMMAND_ID_POS] == "GPS")
+                    {
+                        setTextGPS();
 
-                }
-                else if (dataRecievedArray[0] == "DOF" )
-                {
-                    setTextDOF();
-                }
-                else if (dataRecievedArray[0] == "RocketStatus")
-                {
-                    setRocketStatus();
+                    }
+                    else if (dataRecievedArray[COMMAND_ID_POS] == "AA" && dataRecievedArray[8] == "254\r")
+                    {
+                        setTextAccel();
+                    }
                 }
             }
             catch (Exception el)
@@ -91,57 +102,60 @@ namespace RocketGroundControl
         }
         private void setRocketStatus()
         {
-            if (this.accelerometerlbl.InvokeRequired) // Must invoke UI thread to change UI elements since portDataRecieved is on a separate thread
+            if (this.rocketstatuslbl.InvokeRequired) // Must invoke UI thread to change UI elements since portDataRecieved is on a separate thread
             {
                 SetTextCallback d = new SetTextCallback(setRocketStatus);
                 this.Invoke(d, new object[] { });
             }
             else
             {
-                rocketstatuslbl.Text = dataRecievedArray[1];
+                switch (dataRecievedArray[ROCKET_STAGE_POS])
+                {
+                    case "00":
+                        rocketstatuslbl.Text = "LOCKED GROUND STAGE";
+                        break;
+                    case "11":
+                        rocketstatuslbl.Text = "GROUND STAGE";
+                        break;
+                    case "22":
+                        rocketstatuslbl.Text = "THRUST STAGE";
+                        break;
+                    case "33":
+                        rocketstatuslbl.Text = "DECELERATION STAGE";
+                        break;
+                    case "44":
+                        rocketstatuslbl.Text = "DESCENT DROGUE CHUTE STAGE";
+                        break;
+                    case "55":
+                        rocketstatuslbl.Text = "DESCENT MAIN CHUTE STAGE";
+                        break;
+                }
+                timeOutCounter = 0;
+                oldTimeRecieved = lastTimeRecieved;
+                lastTimeRecieved = Convert.ToInt32(dataRecievedArray[TIME_POS]);
             }
         }
-        private void setTextDOF()
+        private void setTextAccel()
         {
             if (this.accelerometerlbl.InvokeRequired) // Must invoke UI thread to change UI elements since portDataRecieved is on a separate thread
             {
-                SetTextCallback d = new SetTextCallback(setTextDOF);
+                SetTextCallback d = new SetTextCallback(setTextAccel);
                 this.Invoke(d, new object[] { });
             }
             else
             {
                 try
                 {
-                    if (dataRecievedArray[1] == "OFFLINE\r")
-                    {
-                        accelerometerlbl.Text = "Offline";
-                        accelerometerlbl.ForeColor = Color.Red;
-                    }
-                    else
-                    {
-                        accelerometerlbl.Text = "Online";
-                        accelerationXlbl.Text = dataRecievedArray[2];
-                        accelerationYlbl.Text = dataRecievedArray[3];
-                        accelerationZlbl.Text = dataRecievedArray[4];
+                    accelerometerlbl.Text = "Online";
+                    accelerationXlbl.Text = "X: " + dataRecievedArray[5];
+                    accelerationYlbl.Text = "Y: " + dataRecievedArray[6];
+                    accelerationZlbl.Text = "Z: " + dataRecievedArray[7];
 
-                        velocityXlbl.Text = dataRecievedArray[5];
-                        velocityYlbl.Text = dataRecievedArray[6];
-                        velocityZlbl.Text = dataRecievedArray[7];
-
-                        chart.addPoint(3, Double.Parse(dataRecievedArray[1]), Double.Parse(dataRecievedArray[2]));
-                        chart.addPoint(4, Double.Parse(dataRecievedArray[1]), Double.Parse(dataRecievedArray[3]));
-                        chart.addPoint(5, Double.Parse(dataRecievedArray[1]), Double.Parse(dataRecievedArray[4]));
-
-                        chart.addPoint(6, Double.Parse(dataRecievedArray[1]), Double.Parse(dataRecievedArray[5]));
-                        chart.addPoint(7, Double.Parse(dataRecievedArray[1]), Double.Parse(dataRecievedArray[6]));
-                        chart.addPoint(8, Double.Parse(dataRecievedArray[1]), Double.Parse(dataRecievedArray[7]));
-
-                        chart.addPoint(9, Double.Parse(dataRecievedArray[1]), Double.Parse(dataRecievedArray[10]));
-                        chart.addPoint(10, Double.Parse(dataRecievedArray[1]), Double.Parse(dataRecievedArray[9]));
-                        chart.addPoint(11, Double.Parse(dataRecievedArray[1]), Double.Parse(dataRecievedArray[8]));
-                        
-                        accelerometerlbl.ForeColor = Color.Lime;
-                    }
+                    chart.addPoint(3, Double.Parse(dataRecievedArray[4]), Double.Parse(dataRecievedArray[5]));
+                    chart.addPoint(4, Double.Parse(dataRecievedArray[4]), Double.Parse(dataRecievedArray[6]));
+                    chart.addPoint(5, Double.Parse(dataRecievedArray[4]), Double.Parse(dataRecievedArray[7]));
+                    
+                    accelerometerlbl.ForeColor = Color.Lime;
                 }
                 catch { }
             }
@@ -186,34 +200,17 @@ namespace RocketGroundControl
                 }
                 else
                 {
+                    barometriclbl.Text = "Online";
+                    barometriclbl.ForeColor = Color.Lime;
 
-                    if (dataRecievedArray[1] == "OFFLINE\r")
-                    {
-                        barometriclbl.Text = "Offline";
-                        barometriclbl.ForeColor = Color.Red;
-                    }
-                    else
-                    {
-               
-                        barometriclbl.Text = "Online";
-                        airpressurelbl.Text = dataRecievedArray[2];
-                        
-                        altitudelbl.Text = dataRecievedArray[4];
-                        if (Convert.ToDouble(dataRecievedArray[4].Trim()) > maxAltitude)
-                        {
-                            maxAltitude = Convert.ToDouble(dataRecievedArray[4].Trim());
-                            maxAltitudelbl.Text = maxAltitude.ToString();
-                        }
+                    airpressurelbl.Text = dataRecievedArray[5];
+                    altitudelbl.Text = dataRecievedArray[7];
 
-                        chart.addPoint(0, Double.Parse(dataRecievedArray[1]), Double.Parse(dataRecievedArray[2]));
-                        chart.addPoint(1, Double.Parse(dataRecievedArray[1]), Double.Parse(dataRecievedArray[3]));
-                        chart.addPoint(2, Double.Parse(dataRecievedArray[1]), Double.Parse(dataRecievedArray[4]));
-                     }
-                     
-                     barometriclbl.ForeColor = Color.Lime;
-
-                    } 
-                }
+                    //chart.addPoint(0, Double.Parse(dataRecievedArray[4]), Double.Parse(dataRecievedArray[5]));
+                   // chart.addPoint(1, Double.Parse(dataRecievedArray[4]), Double.Parse(dataRecievedArray[6]));
+                    chart.addPoint(2, Double.Parse(dataRecievedArray[4]), Double.Parse(dataRecievedArray[7]));
+                } 
+            }
                 catch {}
         }
         private void combutton_Click(object sender, EventArgs e)
@@ -223,7 +220,7 @@ namespace RocketGroundControl
                 try
                 {
                     string selected = (string)comPortCB.SelectedItem;
-                    xbeePort = new SerialPort(selected, 9600);
+                    xbeePort = new SerialPort(selected, 230400);
                     xbeePort.DtrEnable = false;
                     xbeePort.RtsEnable = false;
    
@@ -283,6 +280,60 @@ namespace RocketGroundControl
             chart.Show();
         }
 
+        private void unlockrocketbtn_Click(object sender, EventArgs e)
+        {
+            if (!unlockrocket)
+            {
+                byte[] bytesToSend = new byte[16] { 0xFF, 0x3A, 0x47, 0x3A, 0x30, 0x30, 0x3A, 0x55, 0x55, 0x3A, 0x30, 0x3A, 0x53, 0x31, 0x3A, 0xFE };
+                xbeePort.Write(bytesToSend, 0, 16);
+                unlockrocketbtn.Text = "Lock Rocket";
+                unlockrocket = true;
+            }
+            else
+            {
+                byte[] bytesToSend = new byte[16] { 0xFF, 0x3A, 0x47, 0x3A, 0x30, 0x30, 0x3A, 0x4C, 0x4C, 0x3A, 0x30, 0x3A, 0x53, 0x30, 0x3A, 0xFE };
+                xbeePort.Write(bytesToSend, 0, 16);
+                unlockrocketbtn.Text = "Unlock Rocket";
+                unlockrocket = false;
+            }
+            //xbeePort.WriteLine("255:G:00:UU:0:S1:254");
+           
+        }
 
+        private void update_Tick(object sender, EventArgs e)
+        {
+            if (timeOutCounter == 0)
+            {
+                timelbl.Text = "Latency: " + (lastTimeRecieved - oldTimeRecieved).ToString() + " ms";
+                timelbl.ForeColor = Color.Lime;
+            }
+            else if (timeOutCounter > 1)
+            {
+                timelbl.Text = "No signal for " + ((timeOutCounter + 1) * 1000).ToString() + " ms";
+                timelbl.ForeColor = Color.Red;
+            }
+            timeOutCounter++;
+        }
+
+        private void simulatelbl_Click(object sender, EventArgs e)
+        {
+            if (!simulationOn)
+            {
+                byte[] bytesToSend = new byte[16] { 0xFF, 0x3A, 0x47, 0x3A, 0x30, 0x30, 0x3A, 0x53, 0x4D, 0x3A, 0x30, 0x3A, 0x53, 0x31, 0x3A, 0xFE };
+                xbeePort.Write(bytesToSend, 0, 16);
+                simulatelbl.Text = "Turn Simulation off";
+                simulationOn = true;
+                
+            }
+            else
+            {
+                byte[] bytesToSend = new byte[16] { 0xFF, 0x3A, 0x47, 0x3A, 0x30, 0x30, 0x3A, 0x53, 0x4D, 0x3A, 0x30, 0x3A, 0x53, 0x30, 0x3A, 0xFE };
+                xbeePort.Write(bytesToSend, 0, 16);
+                simulatelbl.Text = "Turn Simulation on";
+                simulationOn = false;
+            }
+        }
+
+        //0xFF:N:1:PP:N:TIME:PRESSURE:TEMPERATURE:ALTITUDE
     }
 }
