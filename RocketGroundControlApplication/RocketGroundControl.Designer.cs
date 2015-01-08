@@ -44,6 +44,10 @@
             this.deployButton = new System.Windows.Forms.Button();
             this.parachuteTextBox = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label11 = new System.Windows.Forms.Label();
+            this.calcvelocitylbl = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
+            this.filtaltlbl = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
@@ -78,6 +82,7 @@
             this.timelbl = new System.Windows.Forms.Label();
             this.update = new System.Windows.Forms.Timer(this.components);
             this.simulatelbl = new System.Windows.Forms.Button();
+            this.iterationlbl = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -247,6 +252,10 @@
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel1.Controls.Add(this.label11);
+            this.panel1.Controls.Add(this.calcvelocitylbl);
+            this.panel1.Controls.Add(this.label19);
+            this.panel1.Controls.Add(this.filtaltlbl);
             this.panel1.Controls.Add(this.label15);
             this.panel1.Controls.Add(this.label14);
             this.panel1.Controls.Add(this.label9);
@@ -270,8 +279,56 @@
             this.panel1.Controls.Add(this.label8);
             this.panel1.Location = new System.Drawing.Point(363, 62);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(372, 401);
+            this.panel1.Size = new System.Drawing.Size(372, 429);
             this.panel1.TabIndex = 15;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.BackColor = System.Drawing.Color.Transparent;
+            this.label11.Font = new System.Drawing.Font("Courier New", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.ForeColor = System.Drawing.Color.Lime;
+            this.label11.Location = new System.Drawing.Point(7, 390);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(164, 21);
+            this.label11.TabIndex = 33;
+            this.label11.Text = "Calc Velocity:";
+            // 
+            // calcvelocitylbl
+            // 
+            this.calcvelocitylbl.AutoSize = true;
+            this.calcvelocitylbl.BackColor = System.Drawing.Color.Transparent;
+            this.calcvelocitylbl.Font = new System.Drawing.Font("Courier New", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.calcvelocitylbl.ForeColor = System.Drawing.Color.Lime;
+            this.calcvelocitylbl.Location = new System.Drawing.Point(195, 390);
+            this.calcvelocitylbl.Name = "calcvelocitylbl";
+            this.calcvelocitylbl.Size = new System.Drawing.Size(21, 21);
+            this.calcvelocitylbl.TabIndex = 32;
+            this.calcvelocitylbl.Text = "0";
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.BackColor = System.Drawing.Color.Transparent;
+            this.label19.Font = new System.Drawing.Font("Courier New", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label19.ForeColor = System.Drawing.Color.Lime;
+            this.label19.Location = new System.Drawing.Point(7, 327);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(164, 21);
+            this.label19.TabIndex = 31;
+            this.label19.Text = "Filt Altitude:";
+            // 
+            // filtaltlbl
+            // 
+            this.filtaltlbl.AutoSize = true;
+            this.filtaltlbl.BackColor = System.Drawing.Color.Transparent;
+            this.filtaltlbl.Font = new System.Drawing.Font("Courier New", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.filtaltlbl.ForeColor = System.Drawing.Color.Lime;
+            this.filtaltlbl.Location = new System.Drawing.Point(195, 329);
+            this.filtaltlbl.Name = "filtaltlbl";
+            this.filtaltlbl.Size = new System.Drawing.Size(21, 21);
+            this.filtaltlbl.TabIndex = 30;
+            this.filtaltlbl.Text = "0";
             // 
             // label15
             // 
@@ -279,7 +336,7 @@
             this.label15.BackColor = System.Drawing.Color.Transparent;
             this.label15.Font = new System.Drawing.Font("Courier New", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label15.ForeColor = System.Drawing.Color.Lime;
-            this.label15.Location = new System.Drawing.Point(3, 349);
+            this.label15.Location = new System.Drawing.Point(18, 358);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(153, 21);
             this.label15.TabIndex = 29;
@@ -291,7 +348,7 @@
             this.label14.BackColor = System.Drawing.Color.Transparent;
             this.label14.Font = new System.Drawing.Font("Courier New", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label14.ForeColor = System.Drawing.Color.Lime;
-            this.label14.Location = new System.Drawing.Point(47, 312);
+            this.label14.Location = new System.Drawing.Point(62, 298);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(109, 21);
             this.label14.TabIndex = 28;
@@ -303,7 +360,7 @@
             this.label9.BackColor = System.Drawing.Color.Transparent;
             this.label9.Font = new System.Drawing.Font("Courier New", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.ForeColor = System.Drawing.Color.Lime;
-            this.label9.Location = new System.Drawing.Point(3, 280);
+            this.label9.Location = new System.Drawing.Point(20, 271);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(153, 21);
             this.label9.TabIndex = 27;
@@ -315,7 +372,7 @@
             this.airpressurelbl.BackColor = System.Drawing.Color.Transparent;
             this.airpressurelbl.Font = new System.Drawing.Font("Courier New", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.airpressurelbl.ForeColor = System.Drawing.Color.Lime;
-            this.airpressurelbl.Location = new System.Drawing.Point(177, 349);
+            this.airpressurelbl.Location = new System.Drawing.Point(195, 358);
             this.airpressurelbl.Name = "airpressurelbl";
             this.airpressurelbl.Size = new System.Drawing.Size(21, 21);
             this.airpressurelbl.TabIndex = 26;
@@ -327,7 +384,7 @@
             this.altitudelbl.BackColor = System.Drawing.Color.Transparent;
             this.altitudelbl.Font = new System.Drawing.Font("Courier New", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.altitudelbl.ForeColor = System.Drawing.Color.Lime;
-            this.altitudelbl.Location = new System.Drawing.Point(177, 312);
+            this.altitudelbl.Location = new System.Drawing.Point(195, 300);
             this.altitudelbl.Name = "altitudelbl";
             this.altitudelbl.Size = new System.Drawing.Size(21, 21);
             this.altitudelbl.TabIndex = 25;
@@ -339,7 +396,7 @@
             this.maxAltitudelbl.BackColor = System.Drawing.Color.Transparent;
             this.maxAltitudelbl.Font = new System.Drawing.Font("Courier New", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.maxAltitudelbl.ForeColor = System.Drawing.Color.Lime;
-            this.maxAltitudelbl.Location = new System.Drawing.Point(177, 280);
+            this.maxAltitudelbl.Location = new System.Drawing.Point(195, 271);
             this.maxAltitudelbl.Name = "maxAltitudelbl";
             this.maxAltitudelbl.Size = new System.Drawing.Size(21, 21);
             this.maxAltitudelbl.TabIndex = 24;
@@ -638,7 +695,7 @@
             this.timelbl.BackColor = System.Drawing.Color.Transparent;
             this.timelbl.Font = new System.Drawing.Font("Courier New", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.timelbl.ForeColor = System.Drawing.Color.Lime;
-            this.timelbl.Location = new System.Drawing.Point(500, 471);
+            this.timelbl.Location = new System.Drawing.Point(531, 508);
             this.timelbl.Name = "timelbl";
             this.timelbl.Size = new System.Drawing.Size(98, 21);
             this.timelbl.TabIndex = 27;
@@ -660,12 +717,25 @@
             this.simulatelbl.UseVisualStyleBackColor = true;
             this.simulatelbl.Click += new System.EventHandler(this.simulatelbl_Click);
             // 
+            // iterationlbl
+            // 
+            this.iterationlbl.AutoSize = true;
+            this.iterationlbl.BackColor = System.Drawing.Color.Transparent;
+            this.iterationlbl.Font = new System.Drawing.Font("Courier New", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.iterationlbl.ForeColor = System.Drawing.Color.Lime;
+            this.iterationlbl.Location = new System.Drawing.Point(23, 508);
+            this.iterationlbl.Name = "iterationlbl";
+            this.iterationlbl.Size = new System.Drawing.Size(175, 21);
+            this.iterationlbl.TabIndex = 29;
+            this.iterationlbl.Text = "Iteration Rate:";
+            // 
             // RocketGroundControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.ClientSize = new System.Drawing.Size(760, 504);
+            this.ClientSize = new System.Drawing.Size(760, 538);
+            this.Controls.Add(this.iterationlbl);
             this.Controls.Add(this.simulatelbl);
             this.Controls.Add(this.timelbl);
             this.Controls.Add(this.unlockrocketbtn);
@@ -754,6 +824,11 @@
         private System.Windows.Forms.Label timelbl;
         private System.Windows.Forms.Timer update;
         private System.Windows.Forms.Button simulatelbl;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Label filtaltlbl;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label calcvelocitylbl;
+        private System.Windows.Forms.Label iterationlbl;
 
     }
 }

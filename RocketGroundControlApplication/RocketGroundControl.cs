@@ -69,8 +69,6 @@ namespace RocketGroundControl
             /*
              * data templates
              BMP SENSOR  0xFF:N:1:PP:N:TIME:PRESSURE:TEMPERATURE:ALTITUDE
-             DOF SENSOR  DOF:TIME:?:?:?:?
-             GPS SENSOR  GPS:TIME:?:?:?
              */
             try
             {
@@ -92,6 +90,10 @@ namespace RocketGroundControl
                     else if (dataRecievedArray[COMMAND_ID_POS] == "AA" && dataRecievedArray[8] == "254\r")
                     {
                         setTextAccel();
+                    }
+                    else if (dataRecievedArray[COMMAND_ID_POS] == "CC" && dataRecievedArray[8] == "254\r")
+                    {
+                        setTextCustomData();
                     }
                 }
             }
@@ -135,6 +137,24 @@ namespace RocketGroundControl
                 lastTimeRecieved = Convert.ToInt32(dataRecievedArray[TIME_POS]);
             }
         }
+        private void setTextCustomData()
+        {
+            if (this.filtaltlbl.InvokeRequired) // Must invoke UI thread to change UI elements since portDataRecieved is on a separate thread
+            {
+                SetTextCallback d = new SetTextCallback(setTextCustomData);
+                this.Invoke(d, new object[] { });
+            }
+            else
+            {
+                try
+                { 
+                    filtaltlbl.Text = dataRecievedArray[5];
+                    calcvelocitylbl.Text = dataRecievedArray[6];
+                    iterationlbl.Text = "Iteration Rate: " + string.Format("{0:00.00}", (1000 / Convert.ToDouble(dataRecievedArray[7]))) + " ms";
+                }
+                catch { }
+            }
+        }
         private void setTextAccel()
         {
             if (this.accelerometerlbl.InvokeRequired) // Must invoke UI thread to change UI elements since portDataRecieved is on a separate thread
@@ -154,7 +174,7 @@ namespace RocketGroundControl
                     chart.addPoint(3, Double.Parse(dataRecievedArray[4]), Double.Parse(dataRecievedArray[5]));
                     chart.addPoint(4, Double.Parse(dataRecievedArray[4]), Double.Parse(dataRecievedArray[6]));
                     chart.addPoint(5, Double.Parse(dataRecievedArray[4]), Double.Parse(dataRecievedArray[7]));
-                    
+
                     accelerometerlbl.ForeColor = Color.Lime;
                 }
                 catch { }
@@ -334,6 +354,5 @@ namespace RocketGroundControl
             }
         }
 
-        //0xFF:N:1:PP:N:TIME:PRESSURE:TEMPERATURE:ALTITUDE
     }
 }
