@@ -45,6 +45,7 @@
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.yAxisLabel = new System.Windows.Forms.Label();
+            this.cleargraphbtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -153,7 +154,6 @@
             this.label1.Size = new System.Drawing.Size(30, 13);
             this.label1.TabIndex = 2;
             this.label1.Text = "Time";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // yAxisLabel
             // 
@@ -164,12 +164,23 @@
             this.yAxisLabel.TabIndex = 3;
             this.yAxisLabel.Text = "Pressure";
             // 
+            // cleargraphbtn
+            // 
+            this.cleargraphbtn.Location = new System.Drawing.Point(12, 61);
+            this.cleargraphbtn.Name = "cleargraphbtn";
+            this.cleargraphbtn.Size = new System.Drawing.Size(89, 23);
+            this.cleargraphbtn.TabIndex = 4;
+            this.cleargraphbtn.Text = "Clear Graph";
+            this.cleargraphbtn.UseVisualStyleBackColor = true;
+            this.cleargraphbtn.Click += new System.EventHandler(this.cleargraphbtn_Click);
+            // 
             // Chart
             // 
             this.AccessibleRole = System.Windows.Forms.AccessibleRole.Chart;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(760, 504);
+            this.Controls.Add(this.cleargraphbtn);
             this.Controls.Add(this.yAxisLabel);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.comboBox1);
@@ -190,6 +201,7 @@
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label yAxisLabel;
+        private System.Windows.Forms.Button cleargraphbtn;
 
 
     }

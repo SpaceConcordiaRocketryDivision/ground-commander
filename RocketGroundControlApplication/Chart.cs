@@ -49,11 +49,13 @@ namespace RocketGroundControl
             {
                 yAxisLabel.Text = "Pressure";
                 chart1.Series[0].Enabled = true;
+                chart1.Series[0].Points.Clear();
             }
             else if (comboBox1.Text.Equals("Altitude"))
             {
                 yAxisLabel.Text = "Altitude";
                 chart1.Series[2].Enabled = true;
+                chart1.Series[12].Enabled = true;
             }
             else
             {
@@ -65,7 +67,7 @@ namespace RocketGroundControl
 
         private void disableAll()
         {
-            for (int i = 0; i < 12; i++ )
+            for (int i = 0; i < 13; i++ )
                 chart1.Series[i].Enabled = false;
         }
 
@@ -189,10 +191,44 @@ namespace RocketGroundControl
             }
             return low;
         }
-
-        private void label1_Click(object sender, EventArgs e)
+        public void clearGraph()
         {
-
+            for ( int i = 0; i < 9; i++)
+                chart1.Series[i].Points.Clear();
+        }
+        private void cleargraphbtn_Click(object sender, EventArgs e)
+        {
+            if (comboBox1.Text.Equals("Acceleration"))
+            {
+                chart1.Series[3].Points.Clear();
+                chart1.Series[4].Points.Clear();
+                chart1.Series[5].Points.Clear();
+            }
+            else if (comboBox1.Text.Equals("Orientation"))
+            {
+                chart1.Series[9].Points.Clear();
+                chart1.Series[10].Points.Clear();
+                chart1.Series[11].Points.Clear();
+            }
+            else if (comboBox1.Text.Equals("Velocity"))
+            {
+                chart1.Series[6].Points.Clear();
+                chart1.Series[7].Points.Clear();
+                chart1.Series[8].Points.Clear();
+            }
+            else if (comboBox1.Text.Equals("Pressure"))
+            {
+                chart1.Series[0].Points.Clear();
+            }
+            else if (comboBox1.Text.Equals("Altitude"))
+            {
+                chart1.Series[2].Points.Clear();
+                chart1.Series[12].Points.Clear();
+            }
+            else
+            {
+                chart1.Series[1].Points.Clear();
+            }
         }
 
         private void Chart_Load(object sender, EventArgs e)

@@ -73,29 +73,34 @@ namespace RocketGroundControl
             try
             {
                 string data = xbeePort.ReadLine();
-                
-                dataRecievedArray = data.Split(':'); // Split up each piece of data into an array
-                if (dataRecievedArray[START_BYTE_POS] == "255")
+                do
                 {
-                    if (dataRecievedArray[COMMAND_ID_POS] == "PP" && dataRecievedArray[8] == "254\r") // Checks if we recieved BMP sensor info format BMP:ONLINE:PRESSURE:TEMPERATURE:ALTITUDE9
+                    dataRecievedArray = data.Split(':'); // Split up each piece of data into an array
+                    if (dataRecievedArray[START_BYTE_POS] == "255")
                     {
-                        setRocketStatus();
-                        setTextBMP();
-                    }
-                    else if (dataRecievedArray[COMMAND_ID_POS] == "GPS")
-                    {
-                        setTextGPS();
+                        if (dataRecievedArray[COMMAND_ID_POS] == "PP" && dataRecievedArray[8] == "254\r") // Checks if we recieved BMP sensor info format BMP:ONLINE:PRESSURE:TEMPERATURE:ALTITUDE9
+                        {
+                          //  Console.WriteLine(dataRecievedArray[7]);
+                            setRocketStatus();
+                            setTextBMP();
+                        }
+                        else if (dataRecievedArray[COMMAND_ID_POS] == "GPS")
+                        {
+                            setTextGPS();
 
+                        }
+                        else if (dataRecievedArray[COMMAND_ID_POS] == "AA" && dataRecievedArray[8] == "254\r")
+                        {
+                            setTextAccel();
+                        }
+                        else if (dataRecievedArray[COMMAND_ID_POS] == "CC" && dataRecievedArray[8] == "254\r")
+                        {
+                            //Console.WriteLine(dataRecievedArray[7]);
+                            setTextCustomData();
+                        }
                     }
-                    else if (dataRecievedArray[COMMAND_ID_POS] == "AA" && dataRecievedArray[8] == "254\r")
-                    {
-                        setTextAccel();
-                    }
-                    else if (dataRecievedArray[COMMAND_ID_POS] == "CC" && dataRecievedArray[8] == "254\r")
-                    {
-                        setTextCustomData();
-                    }
-                }
+                    data = xbeePort.ReadLine();
+                } while(data != "");
             }
             catch (Exception el)
             {
@@ -150,6 +155,7 @@ namespace RocketGroundControl
                 { 
                     filtaltlbl.Text = dataRecievedArray[5];
                     calcvelocitylbl.Text = dataRecievedArray[6];
+                    chart.addPoint(12, Double.Parse(dataRecievedArray[4]), Double.Parse(dataRecievedArray[6]));
                     iterationlbl.Text = "Iteration Rate: " + string.Format("{0:00.00}", (1000 / Convert.ToDouble(dataRecievedArray[7]))) + " ms";
                 }
                 catch { }
@@ -327,7 +333,7 @@ namespace RocketGroundControl
                 timelbl.Text = "Latency: " + (lastTimeRecieved - oldTimeRecieved).ToString() + " ms";
                 timelbl.ForeColor = Color.Lime;
             }
-            else if (timeOutCounter > 1)
+            else if (timeOutCounter > 4)
             {
                 timelbl.Text = "No signal for " + ((timeOutCounter + 1) * 1000).ToString() + " ms";
                 timelbl.ForeColor = Color.Red;
@@ -337,6 +343,7 @@ namespace RocketGroundControl
 
         private void simulatelbl_Click(object sender, EventArgs e)
         {
+            chart.clearGraph();
             if (!simulationOn)
             {
                 byte[] bytesToSend = new byte[16] { 0xFF, 0x3A, 0x47, 0x3A, 0x30, 0x30, 0x3A, 0x53, 0x4D, 0x3A, 0x30, 0x3A, 0x53, 0x31, 0x3A, 0xFE };
