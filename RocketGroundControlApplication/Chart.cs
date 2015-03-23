@@ -26,40 +26,33 @@ namespace RocketGroundControl
             disableAll();
             if (comboBox1.Text.Equals("Acceleration"))
             {
-                yAxisLabel.Text = "Acceleration X (Blue)\nAcceleration Y(Green)\nAcceleration Z(Red)";
-                chart1.Series[3].Enabled = true;
                 chart1.Series[4].Enabled = true;
                 chart1.Series[5].Enabled = true;
+                chart1.Series[6].Enabled = true;
             }
             else if (comboBox1.Text.Equals("Orientation"))
             {
-                yAxisLabel.Text = "Yaw\nPitch\nRoll";
                 chart1.Series[9].Enabled = true;
                 chart1.Series[10].Enabled = true;
                 chart1.Series[11].Enabled = true;
             }
             else if (comboBox1.Text.Equals("Velocity"))
             {
-                yAxisLabel.Text = "Velocity X(Blue)\nVelocity Y(Green)\nVelocity Z(Red)";
                 chart1.Series[6].Enabled = true;
                 chart1.Series[7].Enabled = true;
                 chart1.Series[8].Enabled = true;
             }
             else if (comboBox1.Text.Equals("Pressure"))
             {
-                yAxisLabel.Text = "Pressure";
                 chart1.Series[0].Enabled = true;
-                chart1.Series[0].Points.Clear();
             }
             else if (comboBox1.Text.Equals("Altitude"))
             {
-                yAxisLabel.Text = "Altitude";
                 chart1.Series[2].Enabled = true;
-                chart1.Series[12].Enabled = true;
+                chart1.Series[3].Enabled = true;
             }
             else
             {
-                yAxisLabel.Text = "Temperature";
                 chart1.Series[1].Enabled = true;
             }
             scale();
@@ -82,37 +75,41 @@ namespace RocketGroundControl
             if (chart1.Series[0].Enabled)
             {
                 chart1.ChartAreas[0].Axes[1].Maximum = highestPoint(0);
-                chart1.ChartAreas[0].Axes[1].Minimum = lowestPoint(0);
+                chart1.ChartAreas[0].Axes[1].Minimum = lowestPointY(0);
+                chart1.ChartAreas[0].Axes[0].Minimum = chart1.Series[0].Points[0].XValue;
                 chart1.ChartAreas[0].Axes[0].Maximum = highestX(0);
             }
             else if(chart1.Series[1].Enabled)
             {
                 chart1.ChartAreas[0].Axes[1].Maximum = highestPoint(1);
-                chart1.ChartAreas[0].Axes[1].Minimum = lowestPoint(1);
+                chart1.ChartAreas[0].Axes[1].Minimum = lowestPointY(1);
                 chart1.ChartAreas[0].Axes[0].Maximum = highestX(1);
             }
             else if (chart1.Series[2].Enabled)
             {
-                chart1.ChartAreas[0].Axes[1].Maximum = highestPoint(2);
-                chart1.ChartAreas[0].Axes[1].Minimum = lowestPoint(2);
-                chart1.ChartAreas[0].Axes[0].Maximum = highestX(2);
+                double maxValue = max(highestPoint(2), highestPoint(3), 0.00);
+                chart1.ChartAreas[0].Axes[1].Maximum = maxValue + (maxValue / 10 + 1);
+                chart1.ChartAreas[0].Axes[1].Minimum = low(lowestPointY(2), lowestPointY(3), 0.00);
+                chart1.ChartAreas[0].Axes[0].Minimum = low(chart1.Series[2].Points[0].XValue, chart1.Series[3].Points[0].XValue, chart1.Series[3].Points[0].XValue);
+                chart1.ChartAreas[0].Axes[0].Maximum = max(highestX(2),highestX(3), 0.00);
             }
-            else if (chart1.Series[3].Enabled)
+            else if (chart1.Series[4].Enabled)
             {
-                chart1.ChartAreas[0].Axes[1].Maximum = max(highestPoint(3), highestPoint(4), highestPoint(5));
-                chart1.ChartAreas[0].Axes[1].Minimum = low(lowestPoint(3), lowestPoint(4), lowestPoint(5));
-                chart1.ChartAreas[0].Axes[0].Maximum = highestX(3);
+                chart1.ChartAreas[0].Axes[1].Maximum = max(highestPoint(4), highestPoint(5), highestPoint(6));
+                chart1.ChartAreas[0].Axes[1].Minimum = low(lowestPointY(4), lowestPointY(5), lowestPointY(6));
+                chart1.ChartAreas[0].Axes[0].Minimum = chart1.Series[4].Points[0].XValue;
+                chart1.ChartAreas[0].Axes[0].Maximum = highestX(4);
             }
             else if (chart1.Series[6].Enabled)
             {
                 chart1.ChartAreas[0].Axes[1].Maximum = max(highestPoint(6), highestPoint(7), highestPoint(8));
-                chart1.ChartAreas[0].Axes[1].Minimum = low(lowestPoint(6), lowestPoint(7), lowestPoint(8));
+                chart1.ChartAreas[0].Axes[1].Minimum = low(lowestPointY(6), lowestPointY(7), lowestPointY(8));
                 chart1.ChartAreas[0].Axes[0].Maximum = highestX(6);
             }
             else
             {
                 chart1.ChartAreas[0].Axes[1].Maximum = max(highestPoint(9), highestPoint(10), highestPoint(11));
-                chart1.ChartAreas[0].Axes[1].Minimum = low(lowestPoint(9), lowestPoint(10), lowestPoint(11));
+                chart1.ChartAreas[0].Axes[1].Minimum = low(lowestPointY(9), lowestPointY(10), lowestPointY(11));
                 chart1.ChartAreas[0].Axes[0].Maximum = highestX(9);
             }
         }
@@ -180,10 +177,9 @@ namespace RocketGroundControl
             }
             return max;
         }
-
-        private double lowestPoint(int series)
+        private double lowestPointY(int series)
         {
-            double low = 0;
+            double low = chart1.Series[series].Points[0].YValues[0];
             for (int i = 0; i < chart1.Series[series].Points.Count; i++)
             {
                 if (chart1.Series[series].Points[i].YValues[0] < low)
@@ -193,16 +189,16 @@ namespace RocketGroundControl
         }
         public void clearGraph()
         {
-            for ( int i = 0; i < 9; i++)
+            for ( int i = 0; i < 6; i++)
                 chart1.Series[i].Points.Clear();
         }
         private void cleargraphbtn_Click(object sender, EventArgs e)
         {
             if (comboBox1.Text.Equals("Acceleration"))
             {
-                chart1.Series[3].Points.Clear();
                 chart1.Series[4].Points.Clear();
                 chart1.Series[5].Points.Clear();
+                chart1.Series[6].Points.Clear();
             }
             else if (comboBox1.Text.Equals("Orientation"))
             {
@@ -223,17 +219,20 @@ namespace RocketGroundControl
             else if (comboBox1.Text.Equals("Altitude"))
             {
                 chart1.Series[2].Points.Clear();
-                chart1.Series[12].Points.Clear();
+                chart1.Series[3].Points.Clear();
             }
             else
             {
                 chart1.Series[1].Points.Clear();
             }
+            
         }
 
         private void Chart_Load(object sender, EventArgs e)
         {
 
         }
+
+
     }
 }

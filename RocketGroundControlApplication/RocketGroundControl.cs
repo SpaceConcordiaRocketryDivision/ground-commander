@@ -42,6 +42,8 @@ namespace RocketGroundControl
         delegate void SetTextCallback();
         public Chart chart = new Chart();
 
+        public double counter = 0;
+
         public int count = 0;
         public int timeOutCounter = 1;
         public int lastTimeRecieved = 0;
@@ -155,8 +157,9 @@ namespace RocketGroundControl
                 { 
                     filtaltlbl.Text = dataRecievedArray[5];
                     calcvelocitylbl.Text = dataRecievedArray[6];
-                    chart.addPoint(12, Double.Parse(dataRecievedArray[4]), Double.Parse(dataRecievedArray[6]));
-                    iterationlbl.Text = "Iteration Rate: " + string.Format("{0:00.00}", (1000 / Convert.ToDouble(dataRecievedArray[7]))) + " ms";
+                    iterationlbl.Text = "Iteration Rate: " + string.Format("{0:00.00}", (250 / Convert.ToDouble(dataRecievedArray[7]))) + " ms";
+                    chart.addPoint(3, Double.Parse(dataRecievedArray[4])/ 1000, Double.Parse(dataRecievedArray[5]));
+                    
                 }
                 catch { }
             }
@@ -176,12 +179,11 @@ namespace RocketGroundControl
                     accelerationXlbl.Text = "X: " + dataRecievedArray[5];
                     accelerationYlbl.Text = "Y: " + dataRecievedArray[6];
                     accelerationZlbl.Text = "Z: " + dataRecievedArray[7];
-
-                    chart.addPoint(3, Double.Parse(dataRecievedArray[4]), Double.Parse(dataRecievedArray[5]));
-                    chart.addPoint(4, Double.Parse(dataRecievedArray[4]), Double.Parse(dataRecievedArray[6]));
-                    chart.addPoint(5, Double.Parse(dataRecievedArray[4]), Double.Parse(dataRecievedArray[7]));
-
                     accelerometerlbl.ForeColor = Color.Lime;
+
+                    chart.addPoint(4, Double.Parse(dataRecievedArray[4]) / 1000, Double.Parse(dataRecievedArray[5]));
+                    chart.addPoint(5, Double.Parse(dataRecievedArray[4]) / 1000, Double.Parse(dataRecievedArray[6]));
+                    chart.addPoint(6, Double.Parse(dataRecievedArray[4]) / 1000, Double.Parse(dataRecievedArray[7]));
                 }
                 catch { }
             }
@@ -232,9 +234,9 @@ namespace RocketGroundControl
                     airpressurelbl.Text = dataRecievedArray[5];
                     altitudelbl.Text = dataRecievedArray[7];
 
-                    //chart.addPoint(0, Double.Parse(dataRecievedArray[4]), Double.Parse(dataRecievedArray[5]));
-                   // chart.addPoint(1, Double.Parse(dataRecievedArray[4]), Double.Parse(dataRecievedArray[6]));
-                    chart.addPoint(2, Double.Parse(dataRecievedArray[4]), Double.Parse(dataRecievedArray[7]));
+                    chart.addPoint(0, Double.Parse(dataRecievedArray[4]) / 1000, Double.Parse(dataRecievedArray[5]));
+                    chart.addPoint(1, Double.Parse(dataRecievedArray[4]) / 1000, Double.Parse(dataRecievedArray[6]));
+                    chart.addPoint(2, Double.Parse(dataRecievedArray[4]) / 1000, Double.Parse(dataRecievedArray[7]));
                 } 
             }
                 catch {}
@@ -246,7 +248,7 @@ namespace RocketGroundControl
                 try
                 {
                     string selected = (string)comPortCB.SelectedItem;
-                    xbeePort = new SerialPort(selected, 230400);
+                    xbeePort = new SerialPort(selected, 57600);
                     xbeePort.DtrEnable = false;
                     xbeePort.RtsEnable = false;
    
@@ -330,7 +332,7 @@ namespace RocketGroundControl
         {
             if (timeOutCounter == 0)
             {
-                timelbl.Text = "Latency: " + (lastTimeRecieved - oldTimeRecieved).ToString() + " ms";
+                timelbl.Text = "Packet recieved rate: " + (lastTimeRecieved - oldTimeRecieved).ToString() + " ms";
                 timelbl.ForeColor = Color.Lime;
             }
             else if (timeOutCounter > 4)
@@ -343,7 +345,6 @@ namespace RocketGroundControl
 
         private void simulatelbl_Click(object sender, EventArgs e)
         {
-            chart.clearGraph();
             if (!simulationOn)
             {
                 byte[] bytesToSend = new byte[16] { 0xFF, 0x3A, 0x47, 0x3A, 0x30, 0x30, 0x3A, 0x53, 0x4D, 0x3A, 0x30, 0x3A, 0x53, 0x31, 0x3A, 0xFE };

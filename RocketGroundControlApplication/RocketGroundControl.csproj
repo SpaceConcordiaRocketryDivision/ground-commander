@@ -51,10 +51,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>F63FE634F9DA62FD86644D8EFEE4E224B89FCE37</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>2C3E7EC5ECC3F6A309FA5B5F9E025E544D072D90</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>RocketGroundControl_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>RocketGroundControl_1_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -115,6 +115,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="RocketGroundControl_1_TemporaryKey.pfx" />
     <None Include="RocketGroundControl_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
