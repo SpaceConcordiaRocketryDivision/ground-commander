@@ -78,7 +78,15 @@
             this.update = new System.Windows.Forms.Timer(this.components);
             this.simulatelbl = new System.Windows.Forms.Button();
             this.iterationlbl = new System.Windows.Forms.Label();
+            this.storebutton = new System.Windows.Forms.Button();
+            this.filetxt = new System.Windows.Forms.TextBox();
+            this.ratenum = new System.Windows.Forms.NumericUpDown();
+            this.recievedRateTxt = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.baudratenum = new System.Windows.Forms.NumericUpDown();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ratenum)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.baudratenum)).BeginInit();
             this.SuspendLayout();
             // 
             // label2
@@ -519,15 +527,15 @@
             this.label17.BackColor = System.Drawing.Color.Transparent;
             this.label17.Font = new System.Drawing.Font("Courier New", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label17.ForeColor = System.Drawing.Color.Lime;
-            this.label17.Location = new System.Drawing.Point(23, 210);
+            this.label17.Location = new System.Drawing.Point(23, 177);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(164, 21);
+            this.label17.Size = new System.Drawing.Size(318, 21);
             this.label17.TabIndex = 17;
-            this.label17.Text = "Enter com port";
+            this.label17.Text = "Enter com port and BAUD Rate";
             // 
             // combutton
             // 
-            this.combutton.Location = new System.Drawing.Point(103, 232);
+            this.combutton.Location = new System.Drawing.Point(197, 199);
             this.combutton.Name = "combutton";
             this.combutton.Size = new System.Drawing.Size(75, 23);
             this.combutton.TabIndex = 19;
@@ -551,7 +559,7 @@
             // pressureSend
             // 
             this.pressureSend.Enabled = false;
-            this.pressureSend.Location = new System.Drawing.Point(103, 281);
+            this.pressureSend.Location = new System.Drawing.Point(103, 248);
             this.pressureSend.Name = "pressureSend";
             this.pressureSend.Size = new System.Drawing.Size(75, 23);
             this.pressureSend.TabIndex = 23;
@@ -562,7 +570,7 @@
             // pressureTextBox
             // 
             this.pressureTextBox.Enabled = false;
-            this.pressureTextBox.Location = new System.Drawing.Point(22, 282);
+            this.pressureTextBox.Location = new System.Drawing.Point(22, 249);
             this.pressureTextBox.Name = "pressureTextBox";
             this.pressureTextBox.Size = new System.Drawing.Size(80, 20);
             this.pressureTextBox.TabIndex = 22;
@@ -574,7 +582,7 @@
             this.label10.BackColor = System.Drawing.Color.Transparent;
             this.label10.Font = new System.Drawing.Font("Courier New", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.ForeColor = System.Drawing.Color.Lime;
-            this.label10.Location = new System.Drawing.Point(18, 258);
+            this.label10.Location = new System.Drawing.Point(18, 225);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(329, 21);
             this.label10.TabIndex = 21;
@@ -583,14 +591,14 @@
             // comPortCB
             // 
             this.comPortCB.FormattingEnabled = true;
-            this.comPortCB.Location = new System.Drawing.Point(22, 234);
+            this.comPortCB.Location = new System.Drawing.Point(22, 201);
             this.comPortCB.Name = "comPortCB";
             this.comPortCB.Size = new System.Drawing.Size(80, 21);
             this.comPortCB.TabIndex = 24;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(22, 333);
+            this.button1.Location = new System.Drawing.Point(22, 355);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(121, 23);
             this.button1.TabIndex = 25;
@@ -600,7 +608,7 @@
             // 
             // unlockrocketbtn
             // 
-            this.unlockrocketbtn.Location = new System.Drawing.Point(22, 362);
+            this.unlockrocketbtn.Location = new System.Drawing.Point(22, 384);
             this.unlockrocketbtn.Name = "unlockrocketbtn";
             this.unlockrocketbtn.Size = new System.Drawing.Size(121, 23);
             this.unlockrocketbtn.TabIndex = 26;
@@ -614,7 +622,7 @@
             this.timelbl.BackColor = System.Drawing.Color.Transparent;
             this.timelbl.Font = new System.Drawing.Font("Courier New", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.timelbl.ForeColor = System.Drawing.Color.Lime;
-            this.timelbl.Location = new System.Drawing.Point(359, 508);
+            this.timelbl.Location = new System.Drawing.Point(23, 528);
             this.timelbl.Name = "timelbl";
             this.timelbl.Size = new System.Drawing.Size(98, 21);
             this.timelbl.TabIndex = 27;
@@ -628,7 +636,7 @@
             // 
             // simulatelbl
             // 
-            this.simulatelbl.Location = new System.Drawing.Point(22, 391);
+            this.simulatelbl.Location = new System.Drawing.Point(22, 413);
             this.simulatelbl.Name = "simulatelbl";
             this.simulatelbl.Size = new System.Drawing.Size(121, 23);
             this.simulatelbl.TabIndex = 28;
@@ -648,12 +656,103 @@
             this.iterationlbl.TabIndex = 29;
             this.iterationlbl.Text = "Iteration Rate:";
             // 
+            // storebutton
+            // 
+            this.storebutton.Location = new System.Drawing.Point(128, 322);
+            this.storebutton.Name = "storebutton";
+            this.storebutton.Size = new System.Drawing.Size(121, 23);
+            this.storebutton.TabIndex = 30;
+            this.storebutton.Text = "Store Recieved Data";
+            this.storebutton.UseVisualStyleBackColor = true;
+            this.storebutton.Click += new System.EventHandler(this.storebutton_Click);
+            // 
+            // filetxt
+            // 
+            this.filetxt.Location = new System.Drawing.Point(22, 324);
+            this.filetxt.Name = "filetxt";
+            this.filetxt.Size = new System.Drawing.Size(100, 20);
+            this.filetxt.TabIndex = 31;
+            this.filetxt.Text = "RecievedData";
+            // 
+            // ratenum
+            // 
+            this.ratenum.Location = new System.Drawing.Point(22, 296);
+            this.ratenum.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.ratenum.Minimum = new decimal(new int[] {
+            150,
+            0,
+            0,
+            0});
+            this.ratenum.Name = "ratenum";
+            this.ratenum.Size = new System.Drawing.Size(80, 20);
+            this.ratenum.TabIndex = 32;
+            this.ratenum.Value = new decimal(new int[] {
+            150,
+            0,
+            0,
+            0});
+            this.ratenum.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
+            // 
+            // recievedRateTxt
+            // 
+            this.recievedRateTxt.Location = new System.Drawing.Point(103, 296);
+            this.recievedRateTxt.Name = "recievedRateTxt";
+            this.recievedRateTxt.Size = new System.Drawing.Size(75, 23);
+            this.recievedRateTxt.TabIndex = 33;
+            this.recievedRateTxt.Text = "Change";
+            this.recievedRateTxt.UseVisualStyleBackColor = true;
+            this.recievedRateTxt.Click += new System.EventHandler(this.recievedRateTxt_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.Font = new System.Drawing.Font("Courier New", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.Lime;
+            this.label1.Location = new System.Drawing.Point(23, 272);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(263, 21);
+            this.label1.TabIndex = 34;
+            this.label1.Text = "Data Recieved Rate (ms)";
+            // 
+            // baudratenum
+            // 
+            this.baudratenum.Location = new System.Drawing.Point(108, 201);
+            this.baudratenum.Maximum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            0});
+            this.baudratenum.Minimum = new decimal(new int[] {
+            9600,
+            0,
+            0,
+            0});
+            this.baudratenum.Name = "baudratenum";
+            this.baudratenum.Size = new System.Drawing.Size(80, 20);
+            this.baudratenum.TabIndex = 35;
+            this.baudratenum.Value = new decimal(new int[] {
+            57600,
+            0,
+            0,
+            0});
+            // 
             // RocketGroundControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.ClientSize = new System.Drawing.Size(760, 538);
+            this.ClientSize = new System.Drawing.Size(760, 558);
+            this.Controls.Add(this.baudratenum);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.recievedRateTxt);
+            this.Controls.Add(this.ratenum);
+            this.Controls.Add(this.filetxt);
+            this.Controls.Add(this.storebutton);
             this.Controls.Add(this.iterationlbl);
             this.Controls.Add(this.simulatelbl);
             this.Controls.Add(this.timelbl);
@@ -686,6 +785,8 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ratenum)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.baudratenum)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -741,6 +842,12 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label calcvelocitylbl;
         private System.Windows.Forms.Label iterationlbl;
+        private System.Windows.Forms.Button storebutton;
+        private System.Windows.Forms.TextBox filetxt;
+        private System.Windows.Forms.NumericUpDown ratenum;
+        private System.Windows.Forms.Button recievedRateTxt;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.NumericUpDown baudratenum;
 
     }
 }

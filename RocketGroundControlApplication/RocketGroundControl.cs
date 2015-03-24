@@ -22,6 +22,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO.Ports;
 using System.Threading;
+using System.IO;
 
 namespace RocketGroundControl
 {
@@ -40,6 +41,7 @@ namespace RocketGroundControl
         public bool simulationOn = false;
         public double maxAltitude = 0;
         delegate void SetTextCallback();
+        public bool writeOn = false;
         public Chart chart = new Chart();
 
         public double counter = 0;
@@ -48,6 +50,8 @@ namespace RocketGroundControl
         public int timeOutCounter = 1;
         public int lastTimeRecieved = 0;
         public int oldTimeRecieved = 0;
+        public StreamWriter file;
+        
         public RocketGroundControl()
         {
             InitializeComponent();
@@ -75,8 +79,11 @@ namespace RocketGroundControl
             try
             {
                 string data = xbeePort.ReadLine();
+                
                 do
                 {
+                    if (writeOn)
+                        file.Write(data);
                     dataRecievedArray = data.Split(':'); // Split up each piece of data into an array
                     if (dataRecievedArray[START_BYTE_POS] == "255")
                     {
@@ -157,7 +164,7 @@ namespace RocketGroundControl
                 { 
                     filtaltlbl.Text = dataRecievedArray[5];
                     calcvelocitylbl.Text = dataRecievedArray[6];
-                    iterationlbl.Text = "Iteration Rate: " + string.Format("{0:00.00}", (250 / Convert.ToDouble(dataRecievedArray[7]))) + " ms";
+                    iterationlbl.Text = "Rocket Loop Iteration Rate: " + string.Format("{0:00.00}", ( Convert.ToDouble(dataRecievedArray[7]))) + " ms";
                     chart.addPoint(3, Double.Parse(dataRecievedArray[4])/ 1000, Double.Parse(dataRecievedArray[5]));
                     
                 }
@@ -248,7 +255,7 @@ namespace RocketGroundControl
                 try
                 {
                     string selected = (string)comPortCB.SelectedItem;
-                    xbeePort = new SerialPort(selected, 57600);
+                    xbeePort = new SerialPort(selected, (int)baudratenum.Value);
                     xbeePort.DtrEnable = false;
                     xbeePort.RtsEnable = false;
    
@@ -360,6 +367,43 @@ namespace RocketGroundControl
                 simulatelbl.Text = "Turn Simulation on";
                 simulationOn = false;
             }
+        }
+
+        private void storebutton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (writeOn)
+                {
+                    writeOn = false;
+                    storebutton.Text = "Store Data";
+                }
+                else
+                {
+                    storebutton.Text = "Stop Storing Data";
+                    writeOn = true;
+                    file = new StreamWriter(filetxt.Text + ".txt");
+                }
+            }
+            catch { }
+        }
+
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void recievedRateTxt_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int rate = (int)ratenum.Value;
+                byte[] intBytes = BitConverter.GetBytes(rate);
+                byte[] bytesToSend = new byte[16] { 0xFF, 0x3A, 0x47, 0x3A, 0x30, 0x30, 0x3A, 0x43, 0x52, 0x3A, 0x30, 0x3A, intBytes[1], intBytes[0], 0x3A, 0xFE };
+                xbeePort.Write(bytesToSend, 0, 16);
+            }
+            catch { }
+         
         }
 
     }
