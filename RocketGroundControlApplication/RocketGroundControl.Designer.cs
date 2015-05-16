@@ -43,6 +43,8 @@
             this.deployButton = new System.Windows.Forms.Button();
             this.parachuteTextBox = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.gpsAltlbl = new System.Windows.Forms.Label();
+            this.satNumlbl = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.calcvelocitylbl = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
@@ -84,6 +86,7 @@
             this.recievedRateTxt = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.baudratenum = new System.Windows.Forms.NumericUpDown();
+            this.setAccelOffsetBtn = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ratenum)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.baudratenum)).BeginInit();
@@ -231,6 +234,8 @@
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel1.Controls.Add(this.gpsAltlbl);
+            this.panel1.Controls.Add(this.satNumlbl);
             this.panel1.Controls.Add(this.label11);
             this.panel1.Controls.Add(this.calcvelocitylbl);
             this.panel1.Controls.Add(this.label19);
@@ -256,6 +261,30 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(372, 429);
             this.panel1.TabIndex = 15;
+            // 
+            // gpsAltlbl
+            // 
+            this.gpsAltlbl.AutoSize = true;
+            this.gpsAltlbl.BackColor = System.Drawing.Color.Transparent;
+            this.gpsAltlbl.Font = new System.Drawing.Font("Courier New", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gpsAltlbl.ForeColor = System.Drawing.Color.Lime;
+            this.gpsAltlbl.Location = new System.Drawing.Point(195, 208);
+            this.gpsAltlbl.Name = "gpsAltlbl";
+            this.gpsAltlbl.Size = new System.Drawing.Size(120, 21);
+            this.gpsAltlbl.TabIndex = 35;
+            this.gpsAltlbl.Text = "GPS Alt: 0";
+            // 
+            // satNumlbl
+            // 
+            this.satNumlbl.AutoSize = true;
+            this.satNumlbl.BackColor = System.Drawing.Color.Transparent;
+            this.satNumlbl.Font = new System.Drawing.Font("Courier New", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.satNumlbl.ForeColor = System.Drawing.Color.Lime;
+            this.satNumlbl.Location = new System.Drawing.Point(195, 176);
+            this.satNumlbl.Name = "satNumlbl";
+            this.satNumlbl.Size = new System.Drawing.Size(153, 21);
+            this.satNumlbl.TabIndex = 34;
+            this.satNumlbl.Text = "Sat Number: 0";
             // 
             // label11
             // 
@@ -383,11 +412,11 @@
             this.gpsLonglbl.BackColor = System.Drawing.Color.Transparent;
             this.gpsLonglbl.Font = new System.Drawing.Font("Courier New", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gpsLonglbl.ForeColor = System.Drawing.Color.Lime;
-            this.gpsLonglbl.Location = new System.Drawing.Point(198, 176);
+            this.gpsLonglbl.Location = new System.Drawing.Point(3, 208);
             this.gpsLonglbl.Name = "gpsLonglbl";
-            this.gpsLonglbl.Size = new System.Drawing.Size(153, 21);
+            this.gpsLonglbl.Size = new System.Drawing.Size(87, 21);
             this.gpsLonglbl.TabIndex = 18;
-            this.gpsLonglbl.Text = "Longtitude: 0";
+            this.gpsLonglbl.Text = "Long: 0";
             // 
             // gpsLatlbl
             // 
@@ -395,11 +424,11 @@
             this.gpsLatlbl.BackColor = System.Drawing.Color.Transparent;
             this.gpsLatlbl.Font = new System.Drawing.Font("Courier New", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gpsLatlbl.ForeColor = System.Drawing.Color.Lime;
-            this.gpsLatlbl.Location = new System.Drawing.Point(30, 176);
+            this.gpsLatlbl.Location = new System.Drawing.Point(3, 176);
             this.gpsLatlbl.Name = "gpsLatlbl";
-            this.gpsLatlbl.Size = new System.Drawing.Size(131, 21);
+            this.gpsLatlbl.Size = new System.Drawing.Size(87, 21);
             this.gpsLatlbl.TabIndex = 17;
-            this.gpsLatlbl.Text = "Latitude: 0";
+            this.gpsLatlbl.Text = "Lati: 0";
             // 
             // label16
             // 
@@ -683,7 +712,7 @@
             0,
             0});
             this.ratenum.Minimum = new decimal(new int[] {
-            150,
+            1,
             0,
             0,
             0});
@@ -736,10 +765,20 @@
             this.baudratenum.Size = new System.Drawing.Size(80, 20);
             this.baudratenum.TabIndex = 35;
             this.baudratenum.Value = new decimal(new int[] {
-            57600,
+            115200,
             0,
             0,
             0});
+            // 
+            // setAccelOffsetBtn
+            // 
+            this.setAccelOffsetBtn.Location = new System.Drawing.Point(149, 355);
+            this.setAccelOffsetBtn.Name = "setAccelOffsetBtn";
+            this.setAccelOffsetBtn.Size = new System.Drawing.Size(121, 23);
+            this.setAccelOffsetBtn.TabIndex = 36;
+            this.setAccelOffsetBtn.Text = "Set Acceleration Offset";
+            this.setAccelOffsetBtn.UseVisualStyleBackColor = true;
+            this.setAccelOffsetBtn.Click += new System.EventHandler(this.setAccelOffsetBtn_Click);
             // 
             // RocketGroundControl
             // 
@@ -747,6 +786,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(760, 558);
+            this.Controls.Add(this.setAccelOffsetBtn);
             this.Controls.Add(this.baudratenum);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.recievedRateTxt);
@@ -848,6 +888,9 @@
         private System.Windows.Forms.Button recievedRateTxt;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.NumericUpDown baudratenum;
+        private System.Windows.Forms.Label satNumlbl;
+        private System.Windows.Forms.Label gpsAltlbl;
+        private System.Windows.Forms.Button setAccelOffsetBtn;
 
     }
 }

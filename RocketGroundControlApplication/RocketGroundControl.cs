@@ -36,10 +36,12 @@ namespace RocketGroundControl
         
         public SerialPort xbeePort; 
         public string[] dataRecievedArray;
+        public double[] accelOffset = {0, 0, 0};
         public bool connected = false;
         public bool unlockrocket = false;
         public bool simulationOn = false;
         public double maxAltitude = 0;
+        public bool setAccelOffset = false;
         delegate void SetTextCallback();
         public bool writeOn = false;
         public Chart chart = new Chart();
@@ -93,7 +95,7 @@ namespace RocketGroundControl
                             setRocketStatus();
                             setTextBMP();
                         }
-                        else if (dataRecievedArray[COMMAND_ID_POS] == "GPS")
+                        else if (dataRecievedArray[COMMAND_ID_POS] == "GG")
                         {
                             setTextGPS();
 
@@ -102,7 +104,7 @@ namespace RocketGroundControl
                         {
                             setTextAccel();
                         }
-                        else if (dataRecievedArray[COMMAND_ID_POS] == "CC" && dataRecievedArray[8] == "254\r")
+                        else if (dataRecievedArray[COMMAND_ID_POS] == "CC" && dataRecievedArray[9] == "254\r")
                         {
                             //Console.WriteLine(dataRecievedArray[7]);
                             setTextCustomData();
@@ -164,6 +166,7 @@ namespace RocketGroundControl
                 { 
                     filtaltlbl.Text = dataRecievedArray[5];
                     calcvelocitylbl.Text = dataRecievedArray[6];
+                    maxAltitudelbl.Text = dataRecievedArray[8];
                     iterationlbl.Text = "Rocket Loop Iteration Rate: " + string.Format("{0:00.00}", ( Convert.ToDouble(dataRecievedArray[7]))) + " ms";
                     chart.addPoint(3, Double.Parse(dataRecievedArray[4])/ 1000, Double.Parse(dataRecievedArray[5]));
                     
@@ -182,10 +185,19 @@ namespace RocketGroundControl
             {
                 try
                 {
+                    
                     accelerometerlbl.Text = "Online";
-                    accelerationXlbl.Text = "X: " + dataRecievedArray[5];
-                    accelerationYlbl.Text = "Y: " + dataRecievedArray[6];
-                    accelerationZlbl.Text = "Z: " + dataRecievedArray[7];
+                    accelerationXlbl.Text = "X: " +  (Convert.ToDouble(dataRecievedArray[5]) - accelOffset[0]);
+                    accelerationYlbl.Text = "Y: " +  (Convert.ToDouble(dataRecievedArray[6]) - accelOffset[1]);
+                    accelerationZlbl.Text = "Z: " +  (Convert.ToDouble(dataRecievedArray[7]) - accelOffset[2]);
+
+                    if (setAccelOffset)
+                    {
+                        accelOffset[0] = Convert.ToDouble(dataRecievedArray[5]);
+                        accelOffset[1] = Convert.ToDouble(dataRecievedArray[6]);
+                        accelOffset[2] = Convert.ToDouble(dataRecievedArray[7]);
+                        setAccelOffset = false;
+                    }
                     accelerometerlbl.ForeColor = Color.Lime;
 
                     chart.addPoint(4, Double.Parse(dataRecievedArray[4]) / 1000, Double.Parse(dataRecievedArray[5]));
@@ -215,8 +227,10 @@ namespace RocketGroundControl
                     else
                     {
                         gpslbl.Text = "Online";
-                        gpsLatlbl.Text = dataRecievedArray[5];
-                        gpsLonglbl.Text = dataRecievedArray[6];
+                        gpsLatlbl.Text = "Lati: " + dataRecievedArray[7];
+                        gpsLonglbl.Text = "Long: " + dataRecievedArray[8];
+                        satNumlbl.Text = "Sat Num: " + dataRecievedArray[9];
+                        gpsAltlbl.Text = "GPS Alt: " + dataRecievedArray[10];
                         gpslbl.ForeColor = Color.Lime;
                     }
                 }
@@ -377,6 +391,7 @@ namespace RocketGroundControl
                 {
                     writeOn = false;
                     storebutton.Text = "Store Data";
+                    file.Close();
                 }
                 else
                 {
@@ -404,6 +419,11 @@ namespace RocketGroundControl
             }
             catch { }
          
+        }
+
+        private void setAccelOffsetBtn_Click(object sender, EventArgs e)
+        {
+            setAccelOffset = true;
         }
 
     }
