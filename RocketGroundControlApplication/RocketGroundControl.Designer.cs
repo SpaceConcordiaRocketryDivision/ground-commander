@@ -87,6 +87,10 @@
             this.label1 = new System.Windows.Forms.Label();
             this.baudratenum = new System.Windows.Forms.NumericUpDown();
             this.setAccelOffsetBtn = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.runtimeLbl = new System.Windows.Forms.Label();
+            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.button3 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ratenum)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.baudratenum)).BeginInit();
@@ -217,9 +221,9 @@
             this.deployButton.Enabled = false;
             this.deployButton.Location = new System.Drawing.Point(112, 469);
             this.deployButton.Name = "deployButton";
-            this.deployButton.Size = new System.Drawing.Size(75, 23);
+            this.deployButton.Size = new System.Drawing.Size(113, 23);
             this.deployButton.TabIndex = 13;
-            this.deployButton.Text = "Deploy";
+            this.deployButton.Text = "Deploy Drogue";
             this.deployButton.UseVisualStyleBackColor = true;
             this.deployButton.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -230,6 +234,7 @@
             this.parachuteTextBox.Name = "parachuteTextBox";
             this.parachuteTextBox.Size = new System.Drawing.Size(75, 20);
             this.parachuteTextBox.TabIndex = 14;
+            this.parachuteTextBox.TextChanged += new System.EventHandler(this.parachuteTextBox_TextChanged);
             // 
             // panel1
             // 
@@ -584,6 +589,7 @@
             this.parachuteCheckBox.TabIndex = 20;
             this.parachuteCheckBox.Text = "Enable manual parachute deploy";
             this.parachuteCheckBox.UseVisualStyleBackColor = true;
+            this.parachuteCheckBox.CheckedChanged += new System.EventHandler(this.parachuteCheckBox_CheckedChanged);
             // 
             // pressureSend
             // 
@@ -780,12 +786,56 @@
             this.setAccelOffsetBtn.UseVisualStyleBackColor = true;
             this.setAccelOffsetBtn.Click += new System.EventHandler(this.setAccelOffsetBtn_Click);
             // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(149, 384);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(121, 23);
+            this.button2.TabIndex = 37;
+            this.button2.Text = "Graphs of Data";
+            this.button2.UseVisualStyleBackColor = true;
+            // 
+            // runtimeLbl
+            // 
+            this.runtimeLbl.AutoSize = true;
+            this.runtimeLbl.BackColor = System.Drawing.Color.Transparent;
+            this.runtimeLbl.Font = new System.Drawing.Font("Courier New", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.runtimeLbl.ForeColor = System.Drawing.Color.Lime;
+            this.runtimeLbl.Location = new System.Drawing.Point(451, 508);
+            this.runtimeLbl.Name = "runtimeLbl";
+            this.runtimeLbl.Size = new System.Drawing.Size(109, 21);
+            this.runtimeLbl.TabIndex = 38;
+            this.runtimeLbl.Text = "Run Time:";
+            // 
+            // listBox1
+            // 
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.Location = new System.Drawing.Point(23, 565);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(725, 95);
+            this.listBox1.TabIndex = 39;
+            this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(234, 468);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(113, 23);
+            this.button3.TabIndex = 40;
+            this.button3.Text = "Deploy Main";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
             // RocketGroundControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.ClientSize = new System.Drawing.Size(760, 558);
+            this.ClientSize = new System.Drawing.Size(760, 672);
+            this.Controls.Add(this.button3);
+            this.Controls.Add(this.listBox1);
+            this.Controls.Add(this.runtimeLbl);
+            this.Controls.Add(this.button2);
             this.Controls.Add(this.setAccelOffsetBtn);
             this.Controls.Add(this.baudratenum);
             this.Controls.Add(this.label1);
@@ -891,6 +941,10 @@
         private System.Windows.Forms.Label satNumlbl;
         private System.Windows.Forms.Label gpsAltlbl;
         private System.Windows.Forms.Button setAccelOffsetBtn;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Label runtimeLbl;
+        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.Button button3;
 
     }
 }

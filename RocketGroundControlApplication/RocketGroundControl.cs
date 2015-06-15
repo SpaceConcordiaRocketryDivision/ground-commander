@@ -53,6 +53,8 @@ namespace RocketGroundControl
         public int lastTimeRecieved = 0;
         public int oldTimeRecieved = 0;
         public StreamWriter file;
+
+        public string data;
         
         public RocketGroundControl()
         {
@@ -80,15 +82,17 @@ namespace RocketGroundControl
              */
             try
             {
-                string data = xbeePort.ReadLine();
-                
+                data = xbeePort.ReadLine();
+                //
                 do
                 {
+                    
                     if (writeOn)
                         file.Write(data);
                     dataRecievedArray = data.Split(':'); // Split up each piece of data into an array
-                    if (dataRecievedArray[START_BYTE_POS] == "255")
+                    if (dataRecievedArray[START_BYTE_POS] == "255" && dataRecievedArray[1] == "N")
                     {
+                        addToListBox();
                         if (dataRecievedArray[COMMAND_ID_POS] == "PP" && dataRecievedArray[8] == "254\r") // Checks if we recieved BMP sensor info format BMP:ONLINE:PRESSURE:TEMPERATURE:ALTITUDE9
                         {
                           //  Console.WriteLine(dataRecievedArray[7]);
@@ -116,6 +120,19 @@ namespace RocketGroundControl
             catch (Exception el)
             {
                // MessageBox.Show(el.InnerException.ToString());
+            }
+        }
+        
+        private void addToListBox()
+        {
+            if (this.listBox1.InvokeRequired)
+            {
+                SetTextCallback d = new SetTextCallback(addToListBox);
+                this.Invoke(d, new object[] { });
+            }
+            else
+            {
+                listBox1.Items.Add(data);
             }
         }
         private void setRocketStatus()
@@ -163,7 +180,8 @@ namespace RocketGroundControl
             else
             {
                 try
-                { 
+                {
+                    runtimeLbl.Text = "Run Time: " + dataRecievedArray[4] + " ms"; ;
                     filtaltlbl.Text = dataRecievedArray[5];
                     calcvelocitylbl.Text = dataRecievedArray[6];
                     maxAltitudelbl.Text = dataRecievedArray[8];
@@ -185,7 +203,7 @@ namespace RocketGroundControl
             {
                 try
                 {
-                    
+                    runtimeLbl.Text = "Run Time: " + dataRecievedArray[4] + " ms";
                     accelerometerlbl.Text = "Online";
                     accelerationXlbl.Text = "X: " +  (Convert.ToDouble(dataRecievedArray[5]) - accelOffset[0]);
                     accelerationYlbl.Text = "Y: " +  (Convert.ToDouble(dataRecievedArray[6]) - accelOffset[1]);
@@ -320,7 +338,10 @@ namespace RocketGroundControl
         {
             if (parachuteCheckBox.Checked && parachuteTextBox.Text == "manual")
             {
-                xbeePort.Write("LaunchPar");
+                byte[] bytesToSend = new byte[16] { 0xFF, 0x3A, 0x47, 0x3A, 0x30, 0x30, 0x3A, 0x44, 0x41, 0x3A, 0x30, 0x3A, 0x44, 0x41, 0x3A, 0xFE };
+                xbeePort.Write(bytesToSend, 0, 16);
+                unlockrocketbtn.Text = "Unlock Rocket";
+                unlockrocket = false;
             }
         }
 
@@ -424,6 +445,32 @@ namespace RocketGroundControl
         private void setAccelOffsetBtn_Click(object sender, EventArgs e)
         {
             setAccelOffset = true;
+        }
+
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (parachuteCheckBox.Checked && parachuteTextBox.Text == "manual")
+            {
+                byte[] bytesToSend = new byte[16] { 0xFF, 0x3A, 0x47, 0x3A, 0x30, 0x30, 0x3A, 0x44, 0x4D, 0x3A, 0x30, 0x3A, 0x44, 0x4D, 0x3A, 0xFE };
+                xbeePort.Write(bytesToSend, 0, 16);
+                unlockrocketbtn.Text = "Unlock Rocket";
+                unlockrocket = false;
+            }
+        }
+
+        private void parachuteCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void parachuteTextBox_TextChanged(object sender, EventArgs e)
+        {
+
         }
 
     }
