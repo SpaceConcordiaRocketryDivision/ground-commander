@@ -28,15 +28,15 @@ namespace RocketGroundControl
 {
     public partial class RocketGroundControl : Form
     {
-        const int START_BYTE_POS      = 0;
+        const int START_BYTE_POS = 0;
         const int TRANSCIEVERD_ID_POS = 1;
-        const int ROCKET_STAGE_POS    = 2;
-        const int COMMAND_ID_POS      = 3;
-        const int TIME_POS            = 4;
-        
-        public SerialPort xbeePort; 
+        const int ROCKET_STAGE_POS = 2;
+        const int COMMAND_ID_POS = 3;
+        const int TIME_POS = 4;
+
+        public SerialPort xbeePort;
         public string[] dataRecievedArray;
-        public double[] accelOffset = {0, 0, 0};
+        public double[] accelOffset = { 0, 0, 0 };
         public bool connected = false;
         public bool unlockrocket = false;
         public bool simulationOn = false;
@@ -55,7 +55,13 @@ namespace RocketGroundControl
         public StreamWriter file;
 
         public string data;
-        
+
+        public List<Tuple<int, float>> filteredAltitudeSamples = new List<Tuple<int, float>>();
+        public List<Tuple<int, float>> rawAltitudeSamples = new List<Tuple<int, float>>();
+        public List<Tuple<int, float>> pressureSamples = new List<Tuple<int, float>>();
+        public List<Tuple<int, float>> velocitySamples = new List<Tuple<int, float>>();
+        public List<Tuple<int, float>> temperatureSamples = new List<Tuple<int, float>>();
+
         public RocketGroundControl()
         {
             InitializeComponent();
@@ -65,7 +71,7 @@ namespace RocketGroundControl
         {
             string[] ports = SerialPort.GetPortNames();
 
-            Console.WriteLine("The following serial ports were found:");
+
 
             // Display each port name to the console. 
             foreach (string port in ports)
@@ -76,30 +82,24 @@ namespace RocketGroundControl
         }
         private void portDataReceived(object sender, System.IO.Ports.SerialDataReceivedEventArgs e)
         {
-            /*
-             * data templates
-             BMP SENSOR  0xFF:N:1:PP:N:TIME:PRESSURE:TEMPERATURE:ALTITUDE
-             */
             try
             {
                 data = xbeePort.ReadLine();
-                //
                 do
                 {
-                    
                     if (writeOn)
                         file.Write(data);
                     dataRecievedArray = data.Split(':'); // Split up each piece of data into an array
-                    if (dataRecievedArray[START_BYTE_POS] == "255" && dataRecievedArray[1] == "N")
+                    if (dataRecievedArray[START_BYTE_POS] == "255" && ((avionicsCheckbox.Checked && dataRecievedArray[1] == "T") || (noseCheckbox.Checked && dataRecievedArray[1] == "N")))
                     {
                         addToListBox();
                         if (dataRecievedArray[COMMAND_ID_POS] == "PP" && dataRecievedArray[8] == "254\r") // Checks if we recieved BMP sensor info format BMP:ONLINE:PRESSURE:TEMPERATURE:ALTITUDE9
                         {
-                          //  Console.WriteLine(dataRecievedArray[7]);
+                            //  Console.WriteLine(dataRecievedArray[7]);
                             setRocketStatus();
                             setTextBMP();
                         }
-                        else if (dataRecievedArray[COMMAND_ID_POS] == "GG")
+                        else if (dataRecievedArray[COMMAND_ID_POS] == "GG" && dataRecievedArray[13] == "254\r")
                         {
                             setTextGPS();
 
@@ -115,14 +115,14 @@ namespace RocketGroundControl
                         }
                     }
                     data = xbeePort.ReadLine();
-                } while(data != "");
+                } while (data != "");
             }
             catch (Exception el)
             {
-               // MessageBox.Show(el.InnerException.ToString());
+                // MessageBox.Show(el.InnerException.ToString());
             }
         }
-        
+
         private void addToListBox()
         {
             if (this.listBox1.InvokeRequired)
@@ -132,7 +132,7 @@ namespace RocketGroundControl
             }
             else
             {
-                listBox1.Items.Add(data);
+                listBox1.Items.Insert(0, data);
             }
         }
         private void setRocketStatus()
@@ -182,12 +182,12 @@ namespace RocketGroundControl
                 try
                 {
                     runtimeLbl.Text = "Run Time: " + dataRecievedArray[4] + " ms"; ;
-                    filtaltlbl.Text = dataRecievedArray[5];
+                    filtaltlbl.Text = (Convert.ToDouble(dataRecievedArray[5]) * 3.28084).ToString();
                     calcvelocitylbl.Text = dataRecievedArray[6];
                     maxAltitudelbl.Text = dataRecievedArray[8];
-                    iterationlbl.Text = "Rocket Loop Iteration Rate: " + string.Format("{0:00.00}", ( Convert.ToDouble(dataRecievedArray[7]))) + " ms";
-                    chart.addPoint(3, Double.Parse(dataRecievedArray[4])/ 1000, Double.Parse(dataRecievedArray[5]));
-                    
+                    iterationlbl.Text = "Rocket Loop Iteration Rate: " + string.Format("{0:00.00}", (Convert.ToDouble(dataRecievedArray[7]))) + " ms";
+                    chart.addPoint(3, Double.Parse(dataRecievedArray[4]) / 1000, Double.Parse(dataRecievedArray[5]));
+
                 }
                 catch { }
             }
@@ -205,9 +205,9 @@ namespace RocketGroundControl
                 {
                     runtimeLbl.Text = "Run Time: " + dataRecievedArray[4] + " ms";
                     accelerometerlbl.Text = "Online";
-                    accelerationXlbl.Text = "X: " +  (Convert.ToDouble(dataRecievedArray[5]) - accelOffset[0]);
-                    accelerationYlbl.Text = "Y: " +  (Convert.ToDouble(dataRecievedArray[6]) - accelOffset[1]);
-                    accelerationZlbl.Text = "Z: " +  (Convert.ToDouble(dataRecievedArray[7]) - accelOffset[2]);
+                    accelerationXlbl.Text = "X: " + (Convert.ToDouble(dataRecievedArray[5]) - accelOffset[0]);
+                    accelerationYlbl.Text = "Y: " + (Convert.ToDouble(dataRecievedArray[6]) - accelOffset[1]);
+                    accelerationZlbl.Text = "Z: " + (Convert.ToDouble(dataRecievedArray[7]) - accelOffset[2]);
 
                     if (setAccelOffset)
                     {
@@ -227,33 +227,25 @@ namespace RocketGroundControl
         }
         private void setTextGPS()
         {
-           try
+            try
             {
-            if (this.gpslbl.InvokeRequired) // Must invoke UI thread to change UI elements since portDataRecieved is on a separate thread
-            {
-                SetTextCallback d = new SetTextCallback(setTextGPS);
-                this.Invoke(d, new object[] { });
-            }
-            else
-            { 
-
-                    if (dataRecievedArray[1] == "OFFLINE\r")
-                    {
-                        gpslbl.Text = "Offline";
-                        gpslbl.ForeColor = Color.Red;
-                    }
-                    else
-                    {
-                        gpslbl.Text = "Online";
-                        gpsLatlbl.Text = "Lati: " + dataRecievedArray[7];
-                        gpsLonglbl.Text = "Long: " + dataRecievedArray[8];
-                        satNumlbl.Text = "Sat Num: " + dataRecievedArray[9];
-                        gpsAltlbl.Text = "GPS Alt: " + dataRecievedArray[10];
-                        gpslbl.ForeColor = Color.Lime;
-                    }
+                if (this.gpslbl.InvokeRequired) // Must invoke UI thread to change UI elements since portDataRecieved is on a separate thread
+                {
+                    SetTextCallback d = new SetTextCallback(setTextGPS);
+                    this.Invoke(d, new object[] { });
                 }
-                
-            }catch { }
+                else
+                {
+                    gpslbl.Text = "Online";
+                    gpsLatlbl.Text = "Lati: " + dataRecievedArray[7];
+                    gpsLonglbl.Text = "Long: " + dataRecievedArray[8];
+                    satNumlbl.Text = "Sat Num: " + dataRecievedArray[9];
+                    gpsAltlbl.Text = "GPS Alt: " + dataRecievedArray[10];
+                    gpslbl.ForeColor = Color.Lime;
+                }
+
+            }
+            catch { }
 
         }
         private void setTextBMP()
@@ -271,14 +263,14 @@ namespace RocketGroundControl
                     barometriclbl.ForeColor = Color.Lime;
 
                     airpressurelbl.Text = dataRecievedArray[5];
-                    altitudelbl.Text = dataRecievedArray[7];
+                    altitudelbl.Text = (Convert.ToDouble(dataRecievedArray[7]) * 3.28084).ToString();
 
                     chart.addPoint(0, Double.Parse(dataRecievedArray[4]) / 1000, Double.Parse(dataRecievedArray[5]));
                     chart.addPoint(1, Double.Parse(dataRecievedArray[4]) / 1000, Double.Parse(dataRecievedArray[6]));
                     chart.addPoint(2, Double.Parse(dataRecievedArray[4]) / 1000, Double.Parse(dataRecievedArray[7]));
-                } 
+                }
             }
-                catch {}
+            catch { }
         }
         private void combutton_Click(object sender, EventArgs e)
         {
@@ -290,7 +282,7 @@ namespace RocketGroundControl
                     xbeePort = new SerialPort(selected, (int)baudratenum.Value);
                     xbeePort.DtrEnable = false;
                     xbeePort.RtsEnable = false;
-   
+
                     xbeePort.Open();
                     connected = true;
                     combutton.Text = "Disconnect";
@@ -306,7 +298,7 @@ namespace RocketGroundControl
                 {
                     MessageBox.Show("Invalid COM xbeePort.");
                 }
-                
+
             }
             else
             {
@@ -338,10 +330,8 @@ namespace RocketGroundControl
         {
             if (parachuteCheckBox.Checked && parachuteTextBox.Text == "manual")
             {
-                byte[] bytesToSend = new byte[16] { 0xFF, 0x3A, 0x47, 0x3A, 0x30, 0x30, 0x3A, 0x44, 0x41, 0x3A, 0x30, 0x3A, 0x44, 0x41, 0x3A, 0xFE };
+                byte[] bytesToSend = new byte[16] { 0xFF, 0x3A, 0x47, 0x3A, 0x30, 0x30, 0x3A, 0x44, 0x53, 0x3A, 0x30, 0x3A, 0x44, 0x53, 0x3A, 0xFE };
                 xbeePort.Write(bytesToSend, 0, 16);
-                unlockrocketbtn.Text = "Unlock Rocket";
-                unlockrocket = false;
             }
         }
 
@@ -367,7 +357,7 @@ namespace RocketGroundControl
                 unlockrocket = false;
             }
             //xbeePort.WriteLine("255:G:00:UU:0:S1:254");
-           
+
         }
 
         private void update_Tick(object sender, EventArgs e)
@@ -381,6 +371,13 @@ namespace RocketGroundControl
             {
                 timelbl.Text = "No signal for " + ((timeOutCounter + 1) * 1000).ToString() + " ms";
                 timelbl.ForeColor = Color.Red;
+
+                barometriclbl.Text = "Offline";
+                barometriclbl.ForeColor = Color.Red;
+
+                accelerometerlbl.Text = "Offline";
+                accelerometerlbl.ForeColor = Color.Red;
+
             }
             timeOutCounter++;
         }
@@ -393,7 +390,7 @@ namespace RocketGroundControl
                 xbeePort.Write(bytesToSend, 0, 16);
                 simulatelbl.Text = "Turn Simulation off";
                 simulationOn = true;
-                
+
             }
             else
             {
@@ -439,7 +436,7 @@ namespace RocketGroundControl
                 xbeePort.Write(bytesToSend, 0, 16);
             }
             catch { }
-         
+
         }
 
         private void setAccelOffsetBtn_Click(object sender, EventArgs e)
@@ -471,6 +468,18 @@ namespace RocketGroundControl
         private void parachuteTextBox_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            string[] ports = SerialPort.GetPortNames();
+
+            comPortCB.Items.Clear();
+            // Display each port name to the console. 
+            foreach (string port in ports)
+            {
+                comPortCB.Items.Add(port);
+            }
         }
 
     }

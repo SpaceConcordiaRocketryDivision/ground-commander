@@ -42,14 +42,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Rocket Ground Control.exe" size="127904">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Rocket Ground Control.exe" size="128928">
       <assemblyIdentity name="Rocket Ground Control" version="1.0.0.0" language="neutral" processorArchitecture="x86" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>blkMBls9IXHLNM1EiFUoz8+B+Rc=</dsig:DigestValue>
+        <dsig:DigestValue>sMFfQaHyu/NLoMDH9rz2SS1C0iQ=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace RocketGroundControl
 {
@@ -45,6 +46,16 @@ namespace RocketGroundControl
             else if (comboBox1.Text.Equals("Pressure"))
             {
                 chart1.Series[0].Enabled = true;
+                chart1.ChartAreas[0].AxisX.ScaleView.Zoomable = true;
+                chart1.ChartAreas[0].AxisX.ScaleView.SizeType = DateTimeIntervalType.Number;
+                int position = 0;
+                int size = 100;
+                chart1.ChartAreas[0].AxisX.ScaleView.Zoom(position, size);
+
+                chart1.ChartAreas[0].AxisX.ScrollBar.ButtonStyle = ScrollBarButtonStyles.SmallScroll;
+
+                // set scrollbar small change to blockSize (e.g. 100)
+                chart1.ChartAreas[0].AxisX.ScaleView.SmallScrollSize = 100;
             }
             else if (comboBox1.Text.Equals("Altitude"))
             {
@@ -78,6 +89,7 @@ namespace RocketGroundControl
                 chart1.ChartAreas[0].Axes[1].Minimum = lowestPointY(0);
                 chart1.ChartAreas[0].Axes[0].Minimum = chart1.Series[0].Points[0].XValue;
                 chart1.ChartAreas[0].Axes[0].Maximum = highestX(0);
+          
             }
             else if(chart1.Series[1].Enabled)
             {
@@ -112,6 +124,7 @@ namespace RocketGroundControl
                 chart1.ChartAreas[0].Axes[1].Minimum = low(lowestPointY(9), lowestPointY(10), lowestPointY(11));
                 chart1.ChartAreas[0].Axes[0].Maximum = highestX(9);
             }
+            
         }
 
         private double max(double num1, double num2, double num3)
